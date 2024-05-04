@@ -99,7 +99,7 @@ class BERTWrapperPRQA:
             prqa_predictions[question_ids[k]] = predictions["{}_{}".format(question_ids[k], top_paragraph)]
             # QA
             for par_id in pr_predictions[question_ids[k]]:
-                if par_id in gold_paragraphs[par_id]:
+                if par_id in gold_paragraphs[k]:
                     # take the most confident gold paragraph (in case there are more of gold paragraphs)
                     qa_predictions[question_ids[k]] = predictions["{}_{}".format(question_ids[k], par_id)]
                     break
