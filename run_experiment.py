@@ -75,7 +75,7 @@ def main(args):
         # evaluate
         qa_scores = Evaluate.question_answering(test, qa_predictions)
         logging.info("QA scores: {}".format(qa_scores))
-        pr_scores = Evaluate.paragraph_retrieval(test, pr_predictions)
+        pr_scores = Evaluate.paragraph_retrieval(test_pars, pr_predictions) # eval PR predictions on the Paragraphized dataset
         logging.info("PR scores: {}".format(pr_scores))
         prqa_scores = Evaluate.question_answering(test, prqa_predictions)
         logging.info("PRQA scores: {}".format(prqa_scores))
