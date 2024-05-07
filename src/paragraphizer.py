@@ -81,7 +81,7 @@ class Paragraphizer:
         return preprocessed_data
 
     
-    def paragraphize(data, title, frequency_threshold, topics = None, target_average=100):
+    def paragraphize(data, title, frequency_threshold, topics = None, target_average=500):
         """
         get data -> paragraphize data ~ split data[i]["paragraphs"] into more paragraphs (right now should be len(data[i]["paragraphs"]) = 1)
         """
@@ -114,6 +114,7 @@ class Paragraphizer:
                 else:
                     beg_offset = norm_context.find(normed_pars[par_id+1], (par_offsets[-1] + len(new_par)))
                     if beg_offset == -1:
+                        logging.error(normed_pars)
                         logging.error("The paragraph is missing ... paragraph: '{}', offset: '{}', context: '{}'".format(normed_pars[par_id+1], par_offsets[-1] + len(new_par), norm_context))
                         assert beg_offset != -1
                     par_mid = beg_offset - (par_offsets[-1] + len(new_par)) # for extra spaces between paragraphs etc..

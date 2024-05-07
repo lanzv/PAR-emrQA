@@ -1,0 +1,16 @@
+2024-05-06 23:44:11 INFO     ------------- Experiment: model ClinicalBERT, frequency threshold 0 ---------------
+2024-05-06 23:44:11 INFO     Contexts were splited into 6517 paragraphs, which are 21.869127516778523 paragraphs on average per one report. The overall paragraph average length (characters) is 253.90072119073193
+2024-05-06 23:44:12 INFO     Contexts were splited into 710 paragraphs, which are 16.904761904761905 paragraphs on average per one report. The overall paragraph average length (characters) is 253.5169014084507
+2024-05-06 23:44:14 INFO     Contexts were splited into 1666 paragraphs, which are 19.372093023255815 paragraphs on average per one report. The overall paragraph average length (characters) is 253.16746698679472
+2024-05-06 23:44:59 INFO     datasets are converted to Datset format
+Some weights of BertForQuestionAnswering were not initialized from the model checkpoint at ../models/Bio_ClinicalBERT and are newly initialized: ['qa_outputs.bias', 'qa_outputs.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+2024-05-06 23:46:40 INFO     training data are prepared
+/home/lanz/.local/lib/python3.10/site-packages/transformers/training_args.py:1463: FutureWarning: `evaluation_strategy` is deprecated and will be removed in version 4.46 of 🤗 Transformers. Use `eval_strategy` instead
+  warnings.warn(
+2024-05-07 00:22:51 INFO     the model is trained
+2024-05-07 01:03:23 INFO     evaluation data are prepared
+slurmstepd: error: *** JOB 4635573 ON tdll-3gpu4 CANCELLED AT 2024-05-07T11:36:18 ***
+slurmstepd: error: common_file_write_uint32s: write pid 1197308 to /sys/fs/cgroup/cgroup.procs failed: Device or resource busy
+slurmstepd: error: Unable to move pid 1197308 to init root cgroup /sys/fs/cgroup
+slurmstepd: error: error unlocking cgroup '/sys/fs/cgroup/system.slice/slurmstepd.scope' : Bad file descriptor

@@ -66,7 +66,7 @@ class BERTWrapperPRQA:
         self.trainer.train()
         logging.info("the model is trained")
 
-    def predict(self, test_prqa_dataset, seed=54, disable_tqdm=False, confidence_type="max_score"):
+    def predict(self,  test_prqa_dataset, seed=54, disable_tqdm=False, confidence_type="min_cls"):
         test_dataset = test_prqa_dataset["test_data"]
         report_boundaries = test_prqa_dataset["report_boundaries"] 
         question_ids = test_prqa_dataset["question_ids"] 
@@ -93,7 +93,7 @@ class BERTWrapperPRQA:
         for k, (i, j) in enumerate(zip(report_boundaries[:-1], report_boundaries[1:])):
             paragraph_predictions = confidences[i:j]
             # PR
-            pr_predictions[question_ids[k]] = np.argsort(paragraph_predictions, axis=0)
+            pr_predictions[question_ids[k]] = np.argsort(paragraph_predictions, axis=0)[::-1]
             # PRQA
             top_paragraph = pr_predictions[question_ids[k]][0]
             prqa_predictions[question_ids[k]] = predictions["{}_{}".format(question_ids[k], top_paragraph)]
@@ -235,7 +235,7 @@ class BERTWrapperPRQA:
 
 
     
-    def __postprocess_qa_predictions(self, examples, features, raw_predictions, disable_tqdm=False, confidence_type="max_score"):
+    def __postprocess_qa_predictions(self, examples, features, raw_predictions, disable_tqdm=False, confidence_type="min_cls"):
         """
         Authors: Huggingface
         """

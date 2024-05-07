@@ -27,6 +27,7 @@ parser.add_argument('--model_name', type=str, default='ClinicalBERT')
 parser.add_argument('--model_path', type=str, default='../models/Bio_ClinicalBERT')
 # paragraphizing
 parser.add_argument('--fts', metavar='N', type=int, nargs='+', default=[165])
+parser.add_argument('--target_average', type=int, default=500)
 # random
 parser.add_argument('--seed', type=int, help='random seed', default=54)
 
@@ -36,7 +37,7 @@ parser.add_argument('--seed', type=int, help='random seed', default=54)
 
 
 MODELS = {
-    "mBERT": lambda model_path: BERTWrapperPRQA(model_path),
+    "BERTbase": lambda model_path: BERTWrapperPRQA(model_path),
     "ClinicalBERT": lambda model_path: BERTWrapperPRQA(model_path),
     "Me-LLaMA": lambda model_path: LLMWrapperPRQA(model_path),
     "BioMistral": lambda model_path: LLMWrapperPRQA(model_path),
@@ -61,9 +62,9 @@ def main(args):
     for ft in args.fts:
         logging.info("------------- Experiment: model {}, frequency threshold {} ---------------".format(args.model_name, ft))
         # prepare data
-        train_pars, train_topics = Paragraphizer.paragraphize(data = train, title=args.dataset_title, frequency_threshold = ft)
-        dev_pars, _ = Paragraphizer.paragraphize(data = dev, title=args.dataset_title, frequency_threshold = ft, topics=train_topics)
-        test_pars, _  = Paragraphizer.paragraphize(data = test, title=args.dataset_title, frequency_threshold = ft, topics=train_topics)
+        train_pars, train_topics = Paragraphizer.paragraphize(data = train, title=args.dataset_title, frequency_threshold = ft, target_average=args.target_average)
+        dev_pars, _ = Paragraphizer.paragraphize(data = dev, title=args.dataset_title, frequency_threshold = ft, topics=train_topics, target_average=args.target_average)
+        test_pars, _  = Paragraphizer.paragraphize(data = test, title=args.dataset_title, frequency_threshold = ft, topics=train_topics, target_average=args.target_average)
         train_dataset = emrqa2qa_dataset(train_pars)
         dev_dataset = emrqa2qa_dataset(dev_pars)
         test_prqa_dataset = emrqa2prqa_dataset(test_pars)

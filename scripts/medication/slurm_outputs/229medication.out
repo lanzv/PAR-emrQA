@@ -1,0 +1,91 @@
+2024-05-06 21:06:11 INFO     ------------- Experiment: model ClinicalBERT, frequency threshold 229 ---------------
+2024-05-06 21:06:12 INFO     Contexts were splited into 4977 sentence groups, which are 27.19672131147541 groups on average per one report
+2024-05-06 21:06:12 INFO     Contexts were splited into 183 paragraphs, which are 1.0 paragraphs on average per one report. There are 0 unique topics with frequency threshold (greater or equal) 229. The overall paragraph average length (characters) is 6672.284153005465
+2024-05-06 21:06:13 INFO     Contexts were splited into 818 sentence groups, which are 31.46153846153846 groups on average per one report
+2024-05-06 21:06:13 INFO     Contexts were splited into 26 paragraphs, which are 1.0 paragraphs on average per one report. There are 0 unique topics with frequency threshold (greater or equal) 229. The overall paragraph average length (characters) is 7048.346153846154
+2024-05-06 21:06:13 INFO     Contexts were splited into 1362 sentence groups, which are 25.69811320754717 groups on average per one report
+2024-05-06 21:06:14 WARNING  The evidenc 'CEFPODOXIME PROXETIL 200 MG PO BID X 16 doses
+Food/Drug Interaction Instruction Give with meals
+' is in wrong format and it does not occure in the paragraph 'POTENTIALLY SERIOUS INTERACTION: WARFARIN &amp; SIMVASTATIN
+Reason for override: already tolerated , home medication ,
+aware
+CEFPODOXIME PROXETIL 200 MG PO BID X 16 doses
+Starting Today ( 6/25 ) HOLD IF: rash
+Food/Drug Interaction Instruction Give with meals
+Alert overridden: Override added on 11/4/05 by :
+on order for CEFPODOXIME PROXETIL PO ( ref # 703442345 )
+Pt. has a POSSIBLE allergy to Penicillins; reaction is
+RASH. Reason for override: cannot tolerate floroquinolones
+and needs gram neg coverage. has
+tolerated cefalosporins well in the past.
+'
+2024-05-06 21:06:14 INFO     Contexts were splited into 53 paragraphs, which are 1.0 paragraphs on average per one report. There are 0 unique topics with frequency threshold (greater or equal) 229. The overall paragraph average length (characters) is 6486.962264150943
+2024-05-06 21:06:22 INFO     datasets are converted to Datset format
+Some weights of BertForQuestionAnswering were not initialized from the model checkpoint at ../models/Bio_ClinicalBERT and are newly initialized: ['qa_outputs.bias', 'qa_outputs.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+2024-05-06 21:11:21 INFO     training data are prepared
+/home/lanz/.local/lib/python3.10/site-packages/transformers/training_args.py:1463: FutureWarning: `evaluation_strategy` is deprecated and will be removed in version 4.46 of 🤗 Transformers. Use `eval_strategy` instead
+  warnings.warn(
+2024-05-06 22:49:07 INFO     the model is trained
+2024-05-06 22:54:32 INFO     evaluation data are prepared
+2024-05-06 23:59:32 INFO     QA scores: {'exact_match': 29.7302521369357, 'f1': 70.97349959354077}
+2024-05-06 23:59:32 INFO     PR scores: {'p@1': 1.0, 'p@2': 1.0, 'p@3': 1.0}
+2024-05-06 23:59:34 INFO     PRQA scores: {'exact_match': 29.7302521369357, 'f1': 70.97349959354077}
+{'loss': 0.9412, 'grad_norm': 4.367428302764893, 'learning_rate': 2.916536835076786e-05, 'epoch': 0.027821054974404628}
+{'loss': 0.591, 'grad_norm': 6.053625583648682, 'learning_rate': 2.8330736701535724e-05, 'epoch': 0.055642109948809255}
+{'loss': 0.5084, 'grad_norm': 4.990915775299072, 'learning_rate': 2.7496105052303583e-05, 'epoch': 0.08346316492321389}
+{'loss': 0.4731, 'grad_norm': 8.793915748596191, 'learning_rate': 2.6661473403071444e-05, 'epoch': 0.11128421989761851}
+{'loss': 0.469, 'grad_norm': 8.765296936035156, 'learning_rate': 2.5826841753839306e-05, 'epoch': 0.13910527487202315}
+{'loss': 0.4518, 'grad_norm': 9.278355598449707, 'learning_rate': 2.4992210104607168e-05, 'epoch': 0.16692632984642777}
+{'loss': 0.3818, 'grad_norm': 14.721190452575684, 'learning_rate': 2.4157578455375026e-05, 'epoch': 0.1947473848208324}
+{'loss': 0.374, 'grad_norm': 4.312075614929199, 'learning_rate': 2.332294680614289e-05, 'epoch': 0.22256843979523702}
+{'loss': 0.3434, 'grad_norm': 7.726138591766357, 'learning_rate': 2.248831515691075e-05, 'epoch': 0.2503894947696417}
+{'loss': 0.3455, 'grad_norm': 19.961074829101562, 'learning_rate': 2.1653683507678612e-05, 'epoch': 0.2782105497440463}
+{'loss': 0.321, 'grad_norm': 9.92364501953125, 'learning_rate': 2.0819051858446474e-05, 'epoch': 0.3060316047184509}
+{'loss': 0.3129, 'grad_norm': 4.611649990081787, 'learning_rate': 1.9984420209214332e-05, 'epoch': 0.33385265969285555}
+{'loss': 0.2927, 'grad_norm': 8.159300804138184, 'learning_rate': 1.9149788559982194e-05, 'epoch': 0.36167371466726017}
+{'loss': 0.2608, 'grad_norm': 10.133559226989746, 'learning_rate': 1.8315156910750055e-05, 'epoch': 0.3894947696416648}
+{'loss': 0.261, 'grad_norm': 5.068228721618652, 'learning_rate': 1.7480525261517917e-05, 'epoch': 0.4173158246160694}
+{'loss': 0.2479, 'grad_norm': 20.95088768005371, 'learning_rate': 1.664589361228578e-05, 'epoch': 0.44513687959047404}
+{'loss': 0.222, 'grad_norm': 14.568034172058105, 'learning_rate': 1.581126196305364e-05, 'epoch': 0.4729579345648787}
+{'loss': 0.2202, 'grad_norm': 1.8796098232269287, 'learning_rate': 1.49766303138215e-05, 'epoch': 0.5007789895392833}
+{'loss': 0.2191, 'grad_norm': 10.084705352783203, 'learning_rate': 1.4141998664589361e-05, 'epoch': 0.5286000445136879}
+{'loss': 0.2063, 'grad_norm': 4.0792694091796875, 'learning_rate': 1.3307367015357223e-05, 'epoch': 0.5564210994880926}
+{'loss': 0.1745, 'grad_norm': 1.1693837642669678, 'learning_rate': 1.2472735366125085e-05, 'epoch': 0.5842421544624972}
+{'loss': 0.1969, 'grad_norm': 9.960672378540039, 'learning_rate': 1.1638103716892945e-05, 'epoch': 0.6120632094369018}
+{'loss': 0.1827, 'grad_norm': 4.1920037269592285, 'learning_rate': 1.0803472067660806e-05, 'epoch': 0.6398842644113065}
+{'loss': 0.1685, 'grad_norm': 9.005053520202637, 'learning_rate': 9.968840418428668e-06, 'epoch': 0.6677053193857111}
+{'loss': 0.1671, 'grad_norm': 7.260249614715576, 'learning_rate': 9.134208769196528e-06, 'epoch': 0.6955263743601158}
+{'loss': 0.1663, 'grad_norm': 16.78459930419922, 'learning_rate': 8.29957711996439e-06, 'epoch': 0.7233474293345203}
+{'loss': 0.169, 'grad_norm': 18.468338012695312, 'learning_rate': 7.46494547073225e-06, 'epoch': 0.751168484308925}
+{'loss': 0.1468, 'grad_norm': 1.5614216327667236, 'learning_rate': 6.630313821500112e-06, 'epoch': 0.7789895392833296}
+{'loss': 0.1506, 'grad_norm': 18.364253997802734, 'learning_rate': 5.795682172267973e-06, 'epoch': 0.8068105942577343}
+{'loss': 0.141, 'grad_norm': 1.3664681911468506, 'learning_rate': 4.961050523035833e-06, 'epoch': 0.8346316492321388}
+{'loss': 0.1367, 'grad_norm': 7.306076526641846, 'learning_rate': 4.126418873803695e-06, 'epoch': 0.8624527042065435}
+{'loss': 0.1254, 'grad_norm': 23.558589935302734, 'learning_rate': 3.2917872245715556e-06, 'epoch': 0.8902737591809481}
+{'loss': 0.1316, 'grad_norm': 1.6180007457733154, 'learning_rate': 2.457155575339417e-06, 'epoch': 0.9180948141553528}
+{'loss': 0.1263, 'grad_norm': 0.2610144317150116, 'learning_rate': 1.622523926107278e-06, 'epoch': 0.9459158691297574}
+{'loss': 0.1147, 'grad_norm': 0.16462357342243195, 'learning_rate': 7.878922768751391e-07, 'epoch': 0.973736924104162}
+{'eval_loss': 0.7860658764839172, 'eval_runtime': 1073.0103, 'eval_samples_per_second': 181.378, 'eval_steps_per_second': 0.709, 'epoch': 1.0}
+{'train_runtime': 5864.3635, 'train_samples_per_second': 49.033, 'train_steps_per_second': 3.065, 'train_loss': 0.2741563051123145, 'epoch': 1.0}
+Post-processing 46562 example predictions split into 391575 features.
+{
+    "229": {
+        "QA": {
+            "exact_match": 29.7302521369357,
+            "f1": 70.97349959354077
+        },
+        "PR": {
+            "p@1": 1.0,
+            "p@2": 1.0,
+            "p@3": 1.0
+        },
+        "PRQA": {
+            "exact_match": 29.7302521369357,
+            "f1": 70.97349959354077
+        }
+    }
+}
+slurmstepd: error: common_file_write_uint32s: write pid 3163507 to /sys/fs/cgroup/cgroup.procs failed: Device or resource busy
+slurmstepd: error: Unable to move pid 3163507 to init root cgroup /sys/fs/cgroup
+slurmstepd: error: error unlocking cgroup '/sys/fs/cgroup/system.slice/slurmstepd.scope' : Bad file descriptor

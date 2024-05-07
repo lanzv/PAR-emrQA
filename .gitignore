@@ -167,3 +167,4 @@ cython_debug/
 /model_output_dir
 
 Untitled.ipynb
+*.out

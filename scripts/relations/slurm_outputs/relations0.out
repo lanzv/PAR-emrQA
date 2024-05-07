@@ -1,0 +1,15 @@
+2024-05-07 10:57:07 INFO     ------------- Experiment: model ClinicalBERT, frequency threshold 0 ---------------
+2024-05-07 10:57:07 INFO     Contexts were splited into 19795 sentence groups, which are 66.4261744966443 groups on average per one report
+2024-05-07 10:57:08 INFO     Contexts were splited into 6645 paragraphs, which are 22.298657718120804 paragraphs on average per one report. There are 953 unique topics with frequency threshold (greater or equal) 0. The overall paragraph average length (characters) is 254.01008276899924
+2024-05-07 10:57:08 INFO     Contexts were splited into 2264 sentence groups, which are 53.904761904761905 groups on average per one report
+2024-05-07 10:57:08 INFO     Contexts were splited into 938 paragraphs, which are 22.333333333333332 paragraphs on average per one report. There are 953 unique topics with frequency threshold (greater or equal) 0. The overall paragraph average length (characters) is 195.8081023454158
+2024-05-07 10:57:09 INFO     Contexts were splited into 4992 sentence groups, which are 58.04651162790697 groups on average per one report
+2024-05-07 10:57:09 INFO     Contexts were splited into 1899 paragraphs, which are 22.08139534883721 paragraphs on average per one report. There are 953 unique topics with frequency threshold (greater or equal) 0. The overall paragraph average length (characters) is 226.61348077935756
+2024-05-07 10:57:51 INFO     datasets are converted to Datset format
+Some weights of BertForQuestionAnswering were not initialized from the model checkpoint at ../models/Bio_ClinicalBERT and are newly initialized: ['qa_outputs.bias', 'qa_outputs.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+2024-05-07 11:00:37 INFO     training data are prepared
+/home/lanz/.local/lib/python3.10/site-packages/transformers/training_args.py:1463: FutureWarning: `evaluation_strategy` is deprecated and will be removed in version 4.46 of 🤗 Transformers. Use `eval_strategy` instead
+  warnings.warn(
+2024-05-07 11:47:13 INFO     the model is trained
+2024-05-07 12:28:50 INFO     evaluation data are prepared

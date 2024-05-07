@@ -1,0 +1,12 @@
+2024-05-07 12:33:47 INFO     ------------- Experiment: model ClinicalBERT, frequency threshold 89 ---------------
+2024-05-07 12:33:47 INFO     Contexts were splited into 963 paragraphs, which are 5.262295081967213 paragraphs on average per one report. The overall paragraph average length (characters) is 1249.5067497403945
+2024-05-07 12:33:47 INFO     Contexts were splited into 147 paragraphs, which are 5.653846153846154 paragraphs on average per one report. The overall paragraph average length (characters) is 1232.0680272108843
+2024-05-07 12:33:48 INFO     Contexts were splited into 271 paragraphs, which are 5.113207547169812 paragraphs on average per one report. The overall paragraph average length (characters) is 1250.8560885608856
+2024-05-07 12:33:55 INFO     datasets are converted to Datset format
+Some weights of BertForQuestionAnswering were not initialized from the model checkpoint at ../models/Bio_ClinicalBERT and are newly initialized: ['qa_outputs.bias', 'qa_outputs.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+2024-05-07 12:35:32 INFO     training data are prepared
+/home/lanz/.local/lib/python3.10/site-packages/transformers/training_args.py:1463: FutureWarning: `evaluation_strategy` is deprecated and will be removed in version 4.46 of 🤗 Transformers. Use `eval_strategy` instead
+  warnings.warn(
+2024-05-07 13:07:16 INFO     the model is trained
+2024-05-07 13:12:17 INFO     evaluation data are prepared

@@ -1,0 +1,28 @@
+2024-05-07 12:55:41 INFO     ------------- Experiment: model BERTbase, frequency threshold 142 ---------------
+2024-05-07 12:55:41 INFO     Contexts were splited into 4977 sentence groups, which are 27.19672131147541 groups on average per one report
+2024-05-07 12:55:42 INFO     Contexts were splited into 411 paragraphs, which are 2.2459016393442623 paragraphs on average per one report. There are 1 unique topics with frequency threshold (greater or equal) 142. The overall paragraph average length (characters) is 2970.8710462287104
+2024-05-07 12:55:43 INFO     Contexts were splited into 818 sentence groups, which are 31.46153846153846 groups on average per one report
+2024-05-07 12:55:43 INFO     Contexts were splited into 38 paragraphs, which are 1.4615384615384615 paragraphs on average per one report. There are 1 unique topics with frequency threshold (greater or equal) 142. The overall paragraph average length (characters) is 4822.5526315789475
+2024-05-07 12:55:43 INFO     Contexts were splited into 1362 sentence groups, which are 25.69811320754717 groups on average per one report
+2024-05-07 12:55:44 WARNING  The evidenc 'CEFPODOXIME PROXETIL 200 MG PO BID X 16 doses
+Food/Drug Interaction Instruction Give with meals
+' is in wrong format and it does not occure in the paragraph 'POTENTIALLY SERIOUS INTERACTION: WARFARIN &amp; SIMVASTATIN
+Reason for override: already tolerated , home medication ,
+aware
+CEFPODOXIME PROXETIL 200 MG PO BID X 16 doses
+Starting Today ( 6/25 ) HOLD IF: rash
+Food/Drug Interaction Instruction Give with meals
+Alert overridden: Override added on 11/4/05 by :
+on order for CEFPODOXIME PROXETIL PO ( ref # 703442345 )
+Pt. has a POSSIBLE allergy to Penicillins; reaction is
+RASH. Reason for override: cannot tolerate floroquinolones
+and needs gram neg coverage. has
+tolerated cefalosporins well in the past.
+'
+2024-05-07 12:55:44 INFO     Contexts were splited into 115 paragraphs, which are 2.169811320754717 paragraphs on average per one report. There are 1 unique topics with frequency threshold (greater or equal) 142. The overall paragraph average length (characters) is 2989.6434782608694
+2024-05-07 12:55:53 INFO     datasets are converted to Datset format
+Some weights of BertForQuestionAnswering were not initialized from the model checkpoint at ../models/bert-base-cased and are newly initialized: ['qa_outputs.bias', 'qa_outputs.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+2024-05-07 13:00:36 INFO     training data are prepared
+/home/lanz/.local/lib/python3.10/site-packages/transformers/training_args.py:1463: FutureWarning: `evaluation_strategy` is deprecated and will be removed in version 4.46 of 🤗 Transformers. Use `eval_strategy` instead
+  warnings.warn(
