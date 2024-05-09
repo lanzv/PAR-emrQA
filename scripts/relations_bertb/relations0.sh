@@ -3,8 +3,8 @@
 #SBATCH -o scripts/relations_bertb/slurm_outputs/relations0.out
 #SBATCH -p gpu-ms
 #SBATCH -G 1
-#SBATCH --mem-per-gpu=90G
-#SBATCH --nodelist=dll-3gpu4
+#SBATCH --mem-per-gpu=120G
+#SBATCH --nodelist=dll-3gpu2
 
 
 

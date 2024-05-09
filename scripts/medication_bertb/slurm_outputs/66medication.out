@@ -26,3 +26,49 @@ You should probably TRAIN this model on a down-stream task to be able to use it 
 2024-05-07 12:57:57 INFO     training data are prepared
 /home/lanz/.local/lib/python3.10/site-packages/transformers/training_args.py:1463: FutureWarning: `evaluation_strategy` is deprecated and will be removed in version 4.46 of 🤗 Transformers. Use `eval_strategy` instead
   warnings.warn(
+2024-05-07 13:47:52 INFO     the model is trained
+2024-05-07 13:54:53 INFO     evaluation data are prepared
+2024-05-07 15:45:30 INFO     QA scores: {'exact_match': 30.490528757355783, 'f1': 70.92662499604222}
+2024-05-07 15:45:30 INFO     PR scores: {'p@1': 0.8833168678321378, 'p@2': 0.9791460847901723, 'p@3': 0.9966281517116963}
+2024-05-07 15:45:32 INFO     PRQA scores: {'exact_match': 28.413727932648943, 'f1': 66.41036033309885}
+{'loss': 1.4536, 'grad_norm': 20.203981399536133, 'learning_rate': 2.83348134991119e-05, 'epoch': 0.05550621669626998}
+{'loss': 0.938, 'grad_norm': 5.619597434997559, 'learning_rate': 2.6669626998223803e-05, 'epoch': 0.11101243339253997}
+{'loss': 0.8332, 'grad_norm': 14.971631050109863, 'learning_rate': 2.5004440497335703e-05, 'epoch': 0.16651865008880995}
+{'loss': 0.7515, 'grad_norm': 18.034757614135742, 'learning_rate': 2.3339253996447604e-05, 'epoch': 0.22202486678507993}
+{'loss': 0.6665, 'grad_norm': 16.29783058166504, 'learning_rate': 2.1674067495559502e-05, 'epoch': 0.2775310834813499}
+{'loss': 0.5857, 'grad_norm': 18.5693359375, 'learning_rate': 2.0008880994671403e-05, 'epoch': 0.3330373001776199}
+{'loss': 0.5531, 'grad_norm': 14.991870880126953, 'learning_rate': 1.8343694493783304e-05, 'epoch': 0.3885435168738899}
+{'loss': 0.5137, 'grad_norm': 7.8403496742248535, 'learning_rate': 1.6678507992895204e-05, 'epoch': 0.44404973357015987}
+{'loss': 0.4694, 'grad_norm': 14.979984283447266, 'learning_rate': 1.5013321492007105e-05, 'epoch': 0.49955595026642985}
+{'loss': 0.4069, 'grad_norm': 26.567100524902344, 'learning_rate': 1.3348134991119006e-05, 'epoch': 0.5550621669626998}
+{'loss': 0.4, 'grad_norm': 12.279929161071777, 'learning_rate': 1.1682948490230905e-05, 'epoch': 0.6105683836589698}
+{'loss': 0.354, 'grad_norm': 4.733862400054932, 'learning_rate': 1.0017761989342806e-05, 'epoch': 0.6660746003552398}
+{'loss': 0.3438, 'grad_norm': 9.235695838928223, 'learning_rate': 8.352575488454707e-06, 'epoch': 0.7215808170515098}
+{'loss': 0.286, 'grad_norm': 2.044879913330078, 'learning_rate': 6.687388987566607e-06, 'epoch': 0.7770870337477798}
+{'loss': 0.3121, 'grad_norm': 16.468950271606445, 'learning_rate': 5.022202486678509e-06, 'epoch': 0.8325932504440497}
+{'loss': 0.27, 'grad_norm': 10.414372444152832, 'learning_rate': 3.3570159857904084e-06, 'epoch': 0.8880994671403197}
+{'loss': 0.253, 'grad_norm': 9.92100715637207, 'learning_rate': 1.6918294849023091e-06, 'epoch': 0.9436056838365897}
+{'loss': 0.2574, 'grad_norm': 3.872523069381714, 'learning_rate': 2.6642984014209594e-08, 'epoch': 0.9991119005328597}
+{'eval_loss': 1.2204334735870361, 'eval_runtime': 568.9622, 'eval_samples_per_second': 179.372, 'eval_steps_per_second': 0.701, 'epoch': 1.0}
+{'train_runtime': 2993.8724, 'train_samples_per_second': 48.14, 'train_steps_per_second': 3.009, 'train_loss': 0.5356303101693335, 'epoch': 1.0}
+Post-processing 494814 example predictions split into 667526 features.
+{
+    "66": {
+        "QA": {
+            "exact_match": 30.490528757355783,
+            "f1": 70.92662499604222
+        },
+        "PR": {
+            "p@1": 0.8833168678321378,
+            "p@2": 0.9791460847901723,
+            "p@3": 0.9966281517116963
+        },
+        "PRQA": {
+            "exact_match": 28.413727932648943,
+            "f1": 66.41036033309885
+        }
+    }
+}
+slurmstepd: error: common_file_write_uint32s: write pid 2733656 to /sys/fs/cgroup/cgroup.procs failed: Device or resource busy
+slurmstepd: error: Unable to move pid 2733656 to init root cgroup /sys/fs/cgroup
+slurmstepd: error: error unlocking cgroup '/sys/fs/cgroup/system.slice/slurmstepd.scope' : Bad file descriptor

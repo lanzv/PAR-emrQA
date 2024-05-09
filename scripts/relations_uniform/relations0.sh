@@ -4,7 +4,7 @@
 #SBATCH -p gpu-troja
 #SBATCH -G 1
 #SBATCH --mem-per-gpu=90G
-#SBATCH --nodelist=tdll-3gpu4
+#SBATCH --nodelist=tdll-3gpu3
 
 
 

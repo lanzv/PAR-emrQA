@@ -13,3 +13,40 @@ You should probably TRAIN this model on a down-stream task to be able to use it 
   warnings.warn(
 2024-05-07 11:47:13 INFO     the model is trained
 2024-05-07 12:28:50 INFO     evaluation data are prepared
+2024-05-08 01:15:58 INFO     QA scores: {'exact_match': 94.25304657771784, 'f1': 97.65899468762785}
+2024-05-08 01:15:59 INFO     PR scores: {'p@1': 0.9778671547613313, 'p@2': 0.9972665093203603, 'p@3': 0.9994701603968981}
+2024-05-08 01:16:09 INFO     PRQA scores: {'exact_match': 92.44858147488078, 'f1': 96.17325371813651}
+{'loss': 0.63, 'grad_norm': 19.359968185424805, 'learning_rate': 2.737348975661005e-05, 'epoch': 0.08755034144633164}
+{'loss': 0.1989, 'grad_norm': 4.40623664855957, 'learning_rate': 2.4746979513220103e-05, 'epoch': 0.17510068289266328}
+{'loss': 0.1566, 'grad_norm': 6.546468734741211, 'learning_rate': 2.2120469269830153e-05, 'epoch': 0.2626510243389949}
+{'loss': 0.1327, 'grad_norm': 0.07118161022663116, 'learning_rate': 1.9493959026440202e-05, 'epoch': 0.35020136578532657}
+{'loss': 0.1138, 'grad_norm': 19.566221237182617, 'learning_rate': 1.6867448783050252e-05, 'epoch': 0.4377517072316582}
+{'loss': 0.1111, 'grad_norm': 0.021893352270126343, 'learning_rate': 1.4240938539660305e-05, 'epoch': 0.5253020486779898}
+{'loss': 0.099, 'grad_norm': 8.314437866210938, 'learning_rate': 1.1614428296270356e-05, 'epoch': 0.6128523901243215}
+{'loss': 0.0762, 'grad_norm': 15.766042709350586, 'learning_rate': 8.987918052880406e-06, 'epoch': 0.7004027315706531}
+{'loss': 0.0759, 'grad_norm': 5.359137058258057, 'learning_rate': 6.361407809490457e-06, 'epoch': 0.7879530730169848}
+{'loss': 0.0645, 'grad_norm': 2.6833996772766113, 'learning_rate': 3.734897566100508e-06, 'epoch': 0.8755034144633164}
+{'loss': 0.0507, 'grad_norm': 14.491494178771973, 'learning_rate': 1.1083873227105586e-06, 'epoch': 0.963053755909648}
+{'eval_loss': 0.2667427659034729, 'eval_runtime': 1260.6488, 'eval_samples_per_second': 179.307, 'eval_steps_per_second': 0.7, 'epoch': 1.0}
+{'train_runtime': 2794.8904, 'train_samples_per_second': 32.689, 'train_steps_per_second': 2.043, 'train_loss': 0.15177586925695624, 'epoch': 1.0}
+Post-processing 4285518 example predictions split into 4632909 features.
+{
+    "0": {
+        "QA": {
+            "exact_match": 94.25304657771784,
+            "f1": 97.65899468762785
+        },
+        "PR": {
+            "p@1": 0.9778671547613313,
+            "p@2": 0.9972665093203603,
+            "p@3": 0.9994701603968981
+        },
+        "PRQA": {
+            "exact_match": 92.44858147488078,
+            "f1": 96.17325371813651
+        }
+    }
+}
+slurmstepd: error: common_file_write_uint32s: write pid 2990204 to /sys/fs/cgroup/cgroup.procs failed: Device or resource busy
+slurmstepd: error: Unable to move pid 2990204 to init root cgroup /sys/fs/cgroup
+slurmstepd: error: error unlocking cgroup '/sys/fs/cgroup/system.slice/slurmstepd.scope' : Bad file descriptor

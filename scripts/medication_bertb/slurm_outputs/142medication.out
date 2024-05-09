@@ -26,3 +26,65 @@ You should probably TRAIN this model on a down-stream task to be able to use it 
 2024-05-07 13:00:36 INFO     training data are prepared
 /home/lanz/.local/lib/python3.10/site-packages/transformers/training_args.py:1463: FutureWarning: `evaluation_strategy` is deprecated and will be removed in version 4.46 of 🤗 Transformers. Use `eval_strategy` instead
   warnings.warn(
+2024-05-07 14:36:57 INFO     the model is trained
+2024-05-07 14:42:47 INFO     evaluation data are prepared
+2024-05-07 15:59:04 INFO     QA scores: {'exact_match': 28.922726686997983, 'f1': 68.89157385352253}
+2024-05-07 15:59:04 INFO     PR scores: {'p@1': 0.9833125724839998, 'p@2': 0.9945663846054723, 'p@3': 0.9992053605944762}
+2024-05-07 15:59:07 INFO     PRQA scores: {'exact_match': 28.38151282161419, 'f1': 68.33984243976202}
+{'loss': 1.0372, 'grad_norm': 7.396271228790283, 'learning_rate': 2.9134199134199137e-05, 'epoch': 0.02886002886002886}
+{'loss': 0.7552, 'grad_norm': 16.648223876953125, 'learning_rate': 2.826839826839827e-05, 'epoch': 0.05772005772005772}
+{'loss': 0.638, 'grad_norm': 12.736101150512695, 'learning_rate': 2.7402597402597405e-05, 'epoch': 0.08658008658008658}
+{'loss': 0.6121, 'grad_norm': 12.016581535339355, 'learning_rate': 2.6536796536796538e-05, 'epoch': 0.11544011544011544}
+{'loss': 0.5603, 'grad_norm': 19.65126609802246, 'learning_rate': 2.5670995670995674e-05, 'epoch': 0.1443001443001443}
+{'loss': 0.5389, 'grad_norm': 13.579035758972168, 'learning_rate': 2.4805194805194806e-05, 'epoch': 0.17316017316017315}
+{'loss': 0.4951, 'grad_norm': 9.533564567565918, 'learning_rate': 2.3939393939393942e-05, 'epoch': 0.20202020202020202}
+{'loss': 0.4741, 'grad_norm': 12.048975944519043, 'learning_rate': 2.3073593073593075e-05, 'epoch': 0.23088023088023088}
+{'loss': 0.4365, 'grad_norm': 3.762906074523926, 'learning_rate': 2.2207792207792207e-05, 'epoch': 0.2597402597402597}
+{'loss': 0.4341, 'grad_norm': 4.258357524871826, 'learning_rate': 2.134199134199134e-05, 'epoch': 0.2886002886002886}
+{'loss': 0.4184, 'grad_norm': 5.840375900268555, 'learning_rate': 2.0476190476190476e-05, 'epoch': 0.31746031746031744}
+{'loss': 0.3627, 'grad_norm': 17.588539123535156, 'learning_rate': 1.961038961038961e-05, 'epoch': 0.3463203463203463}
+{'loss': 0.3668, 'grad_norm': 5.9813055992126465, 'learning_rate': 1.8744588744588745e-05, 'epoch': 0.37518037518037517}
+{'loss': 0.3372, 'grad_norm': 8.0348482131958, 'learning_rate': 1.7878787878787877e-05, 'epoch': 0.40404040404040403}
+{'loss': 0.3193, 'grad_norm': 21.21800422668457, 'learning_rate': 1.7012987012987013e-05, 'epoch': 0.4329004329004329}
+{'loss': 0.3067, 'grad_norm': 10.125133514404297, 'learning_rate': 1.6147186147186146e-05, 'epoch': 0.46176046176046176}
+{'loss': 0.298, 'grad_norm': 15.803536415100098, 'learning_rate': 1.528138528138528e-05, 'epoch': 0.4906204906204906}
+{'loss': 0.2772, 'grad_norm': 12.47158145904541, 'learning_rate': 1.4415584415584416e-05, 'epoch': 0.5194805194805194}
+{'loss': 0.2583, 'grad_norm': 1.8263533115386963, 'learning_rate': 1.354978354978355e-05, 'epoch': 0.5483405483405484}
+{'loss': 0.2319, 'grad_norm': 11.80101490020752, 'learning_rate': 1.2683982683982684e-05, 'epoch': 0.5772005772005772}
+{'loss': 0.238, 'grad_norm': 7.183182239532471, 'learning_rate': 1.1818181818181819e-05, 'epoch': 0.6060606060606061}
+{'loss': 0.2366, 'grad_norm': 14.986245155334473, 'learning_rate': 1.0952380952380951e-05, 'epoch': 0.6349206349206349}
+{'loss': 0.2269, 'grad_norm': 23.387697219848633, 'learning_rate': 1.0086580086580086e-05, 'epoch': 0.6637806637806638}
+{'loss': 0.2195, 'grad_norm': 11.314083099365234, 'learning_rate': 9.22077922077922e-06, 'epoch': 0.6926406926406926}
+{'loss': 0.2092, 'grad_norm': 10.06965446472168, 'learning_rate': 8.354978354978356e-06, 'epoch': 0.7215007215007215}
+{'loss': 0.2008, 'grad_norm': 6.5291266441345215, 'learning_rate': 7.489177489177489e-06, 'epoch': 0.7503607503607503}
+{'loss': 0.1835, 'grad_norm': 11.50905704498291, 'learning_rate': 6.6233766233766234e-06, 'epoch': 0.7792207792207793}
+{'loss': 0.195, 'grad_norm': 13.657333374023438, 'learning_rate': 5.757575757575758e-06, 'epoch': 0.8080808080808081}
+{'loss': 0.1835, 'grad_norm': 9.790287971496582, 'learning_rate': 4.891774891774892e-06, 'epoch': 0.836940836940837}
+{'loss': 0.1916, 'grad_norm': 14.996265411376953, 'learning_rate': 4.025974025974026e-06, 'epoch': 0.8658008658008658}
+{'loss': 0.1664, 'grad_norm': 17.21784019470215, 'learning_rate': 3.1601731601731605e-06, 'epoch': 0.8946608946608947}
+{'loss': 0.1663, 'grad_norm': 20.0892276763916, 'learning_rate': 2.2943722943722944e-06, 'epoch': 0.9235209235209235}
+{'loss': 0.1599, 'grad_norm': 0.3687261939048767, 'learning_rate': 1.4285714285714286e-06, 'epoch': 0.9523809523809523}
+{'loss': 0.1614, 'grad_norm': 16.56262969970703, 'learning_rate': 5.627705627705628e-07, 'epoch': 0.9812409812409812}
+{'eval_loss': 0.7602822184562683, 'eval_runtime': 1098.8339, 'eval_samples_per_second': 179.415, 'eval_steps_per_second': 0.702, 'epoch': 1.0}
+{'train_runtime': 5780.0541, 'train_samples_per_second': 47.958, 'train_steps_per_second': 2.997, 'train_loss': 0.34636754684117965, 'epoch': 1.0}
+Post-processing 112098 example predictions split into 456984 features.
+{
+    "142": {
+        "QA": {
+            "exact_match": 28.922726686997983,
+            "f1": 68.89157385352253
+        },
+        "PR": {
+            "p@1": 0.9833125724839998,
+            "p@2": 0.9945663846054723,
+            "p@3": 0.9992053605944762
+        },
+        "PRQA": {
+            "exact_match": 28.38151282161419,
+            "f1": 68.33984243976202
+        }
+    }
+}
+slurmstepd: error: common_file_write_uint32s: write pid 3166141 to /sys/fs/cgroup/cgroup.procs failed: Device or resource busy
+slurmstepd: error: Unable to move pid 3166141 to init root cgroup /sys/fs/cgroup
+slurmstepd: error: error unlocking cgroup '/sys/fs/cgroup/system.slice/slurmstepd.scope' : Bad file descriptor
