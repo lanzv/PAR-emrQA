@@ -1,0 +1,64 @@
+2024-05-11 19:58:11 INFO     ------------- Experiment: model ClinicalBERT, frequency threshold 157 ---------------
+2024-05-11 19:58:11 INFO     Contexts were splited into 587 paragraphs, which are 1.9697986577181208 paragraphs on average per one report. The overall paragraph average length (characters) is 2818.8603066439523
+2024-05-11 19:58:12 INFO     Contexts were splited into 67 paragraphs, which are 1.5952380952380953 paragraphs on average per one report. The overall paragraph average length (characters) is 2686.5223880597014
+2024-05-11 19:58:12 INFO     Contexts were splited into 151 paragraphs, which are 1.755813953488372 paragraphs on average per one report. The overall paragraph average length (characters) is 2793.225165562914
+2024-05-11 19:58:42 INFO     datasets are converted to Datset format
+Some weights of BertForQuestionAnswering were not initialized from the model checkpoint at ../models/Bio_ClinicalBERT and are newly initialized: ['qa_outputs.bias', 'qa_outputs.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+2024-05-11 20:05:46 INFO     training data are prepared
+/home/lanz/.local/lib/python3.10/site-packages/transformers/training_args.py:1463: FutureWarning: `evaluation_strategy` is deprecated and will be removed in version 4.46 of 🤗 Transformers. Use `eval_strategy` instead
+  warnings.warn(
+2024-05-11 21:49:55 INFO     the model is trained
+2024-05-11 22:10:37 INFO     evaluation data are prepared
+2024-05-12 02:09:53 INFO     QA scores: {'exact_match': 92.4094455951062, 'f1': 97.45754672395616}
+2024-05-12 02:09:54 INFO     PR scores: {'p@1': 0.98845792591879, 'p@2': 0.9993015750686383, 'p@3': 0.9998675400992245}
+2024-05-12 02:10:03 INFO     PRQA scores: {'exact_match': 91.56651895380762, 'f1': 96.7084954777218}
+{'loss': 0.6742, 'grad_norm': 3.4847686290740967, 'learning_rate': 2.8880597014925376e-05, 'epoch': 0.03731343283582089}
+{'loss': 0.251, 'grad_norm': 20.447586059570312, 'learning_rate': 2.7761194029850747e-05, 'epoch': 0.07462686567164178}
+{'loss': 0.1898, 'grad_norm': 7.514927387237549, 'learning_rate': 2.664179104477612e-05, 'epoch': 0.11194029850746269}
+{'loss': 0.1792, 'grad_norm': 4.081446647644043, 'learning_rate': 2.5522388059701493e-05, 'epoch': 0.14925373134328357}
+{'loss': 0.1427, 'grad_norm': 5.782770156860352, 'learning_rate': 2.4402985074626868e-05, 'epoch': 0.1865671641791045}
+{'loss': 0.1308, 'grad_norm': 0.031820498406887054, 'learning_rate': 2.328358208955224e-05, 'epoch': 0.22388059701492538}
+{'loss': 0.1271, 'grad_norm': 0.02788883075118065, 'learning_rate': 2.2164179104477614e-05, 'epoch': 0.26119402985074625}
+{'loss': 0.1241, 'grad_norm': 0.17259687185287476, 'learning_rate': 2.1044776119402985e-05, 'epoch': 0.29850746268656714}
+{'loss': 0.1101, 'grad_norm': 2.5085153579711914, 'learning_rate': 1.992537313432836e-05, 'epoch': 0.3358208955223881}
+{'loss': 0.1058, 'grad_norm': 22.81041145324707, 'learning_rate': 1.880597014925373e-05, 'epoch': 0.373134328358209}
+{'loss': 0.1044, 'grad_norm': 4.928163051605225, 'learning_rate': 1.7686567164179106e-05, 'epoch': 0.41044776119402987}
+{'loss': 0.0987, 'grad_norm': 6.091931343078613, 'learning_rate': 1.656716417910448e-05, 'epoch': 0.44776119402985076}
+{'loss': 0.0827, 'grad_norm': 0.28813648223876953, 'learning_rate': 1.5447761194029852e-05, 'epoch': 0.48507462686567165}
+{'loss': 0.0969, 'grad_norm': 0.2052604705095291, 'learning_rate': 1.4328358208955224e-05, 'epoch': 0.5223880597014925}
+{'loss': 0.0834, 'grad_norm': 0.0454692542552948, 'learning_rate': 1.3208955223880597e-05, 'epoch': 0.5597014925373134}
+{'loss': 0.0771, 'grad_norm': 0.0526302270591259, 'learning_rate': 1.208955223880597e-05, 'epoch': 0.5970149253731343}
+{'loss': 0.0752, 'grad_norm': 0.025691229850053787, 'learning_rate': 1.0970149253731344e-05, 'epoch': 0.6343283582089553}
+{'loss': 0.0698, 'grad_norm': 0.037887658923864365, 'learning_rate': 9.850746268656717e-06, 'epoch': 0.6716417910447762}
+{'loss': 0.0592, 'grad_norm': 31.999347686767578, 'learning_rate': 8.73134328358209e-06, 'epoch': 0.7089552238805971}
+{'loss': 0.065, 'grad_norm': 0.7007712721824646, 'learning_rate': 7.6119402985074636e-06, 'epoch': 0.746268656716418}
+{'loss': 0.0614, 'grad_norm': 0.008901449851691723, 'learning_rate': 6.492537313432836e-06, 'epoch': 0.7835820895522388}
+{'loss': 0.0564, 'grad_norm': 0.008507284335792065, 'learning_rate': 5.373134328358209e-06, 'epoch': 0.8208955223880597}
+{'loss': 0.0534, 'grad_norm': 0.1876845508813858, 'learning_rate': 4.253731343283582e-06, 'epoch': 0.8582089552238806}
+{'loss': 0.0516, 'grad_norm': 0.22962360084056854, 'learning_rate': 3.1343283582089554e-06, 'epoch': 0.8955223880597015}
+{'loss': 0.0378, 'grad_norm': 0.03862858936190605, 'learning_rate': 2.0149253731343284e-06, 'epoch': 0.9328358208955224}
+{'loss': 0.0458, 'grad_norm': 0.0557316392660141, 'learning_rate': 8.955223880597015e-07, 'epoch': 0.9701492537313433}
+{'eval_loss': 0.25897544622421265, 'eval_runtime': 2634.5832, 'eval_samples_per_second': 180.339, 'eval_steps_per_second': 0.704, 'epoch': 1.0}
+{'train_runtime': 6247.5017, 'train_samples_per_second': 34.316, 'train_steps_per_second': 2.145, 'train_loss': 0.11909475383473866, 'epoch': 1.0}
+Post-processing 402318 example predictions split into 1406525 features.
+{
+    "157": {
+        "QA": {
+            "exact_match": 92.4094455951062,
+            "f1": 97.45754672395616
+        },
+        "PR": {
+            "p@1": 0.98845792591879,
+            "p@2": 0.9993015750686383,
+            "p@3": 0.9998675400992245
+        },
+        "PRQA": {
+            "exact_match": 91.56651895380762,
+            "f1": 96.7084954777218
+        }
+    }
+}
+slurmstepd: error: common_file_write_uint32s: write pid 714666 to /sys/fs/cgroup/cgroup.procs failed: Device or resource busy
+slurmstepd: error: Unable to move pid 714666 to init root cgroup /sys/fs/cgroup
+slurmstepd: error: error unlocking cgroup '/sys/fs/cgroup/system.slice/slurmstepd.scope' : Bad file descriptor

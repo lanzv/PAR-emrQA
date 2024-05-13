@@ -27,16 +27,17 @@ def __split_to_paragraphs_uniformly(data, target_average):
             paragraph_offsets.append(paragraph_offsets[-1] + real_average)
         paragraph_offsets.append(report_length)
 
-        # test that there are no splited answers between two paragraphs
-        for qa in report["paragraphs"][0]["qas"]:
-            for answer in qa["answers"]:
-                new_paragraph_offsets = paragraph_offsets.copy()
-                for i, offset in enumerate(paragraph_offsets):
-                    if answer["answer_start"] >= offset and answer["answer_start"] < paragraph_offsets[i+1]:
-                        if not answer["answer_start"] + len(answer["text"]) <= paragraph_offsets[i+1]:
-                            new_paragraph_offsets[i+1] = answer["answer_start"] + len(answer["text"])
-                paragraph_offsets = new_paragraph_offsets
-        
+        # make sure that there are no splited answers between two paragraphs
+        for _ in range(2):
+            for qa in report["paragraphs"][0]["qas"]:
+                for answer in qa["answers"]:
+                    new_paragraph_offsets = paragraph_offsets.copy()
+                    for i, offset in enumerate(paragraph_offsets):
+                        if answer["answer_start"] >= offset and answer["answer_start"] < paragraph_offsets[i+1]:
+                            if not answer["answer_start"] + len(answer["text"]) <= paragraph_offsets[i+1]:
+                                new_paragraph_offsets[i+1] = answer["answer_start"] + len(answer["text"])
+                    paragraph_offsets = new_paragraph_offsets
+
         # create paragraphs regarding offsets
         report_paragraphs = []
         for i, j in zip(paragraph_offsets[:-1], paragraph_offsets[1:]):

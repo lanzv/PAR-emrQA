@@ -1,0 +1,48 @@
+2024-05-11 22:14:07 INFO     ------------- Experiment: model BERTbase, frequency threshold 134 ---------------
+2024-05-11 22:14:07 INFO     Contexts were splited into 1556 paragraphs, which are 5.221476510067114 paragraphs on average per one report. The overall paragraph average length (characters) is 1063.4132390745501
+2024-05-11 22:14:08 INFO     Contexts were splited into 171 paragraphs, which are 4.071428571428571 paragraphs on average per one report. The overall paragraph average length (characters) is 1052.6140350877192
+2024-05-11 22:14:09 INFO     Contexts were splited into 397 paragraphs, which are 4.616279069767442 paragraphs on average per one report. The overall paragraph average length (characters) is 1062.410579345088
+2024-05-11 22:14:38 INFO     datasets are converted to Datset format
+Some weights of BertForQuestionAnswering were not initialized from the model checkpoint at ../models/bert-base-cased and are newly initialized: ['qa_outputs.bias', 'qa_outputs.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+2024-05-11 22:17:35 INFO     training data are prepared
+/home/lanz/.local/lib/python3.10/site-packages/transformers/training_args.py:1463: FutureWarning: `evaluation_strategy` is deprecated and will be removed in version 4.46 of 🤗 Transformers. Use `eval_strategy` instead
+  warnings.warn(
+2024-05-11 22:58:15 INFO     the model is trained
+2024-05-11 23:18:30 INFO     evaluation data are prepared
+2024-05-12 03:15:19 INFO     QA scores: {'exact_match': 90.16726072925196, 'f1': 96.14352539124798}
+2024-05-12 03:15:20 INFO     PR scores: {'p@1': 0.9630617503973797, 'p@2': 0.9931963778238042, 'p@3': 0.9964476662973846}
+2024-05-12 03:15:30 INFO     PRQA scores: {'exact_match': 87.64691007176918, 'f1': 93.83933896686455}
+{'loss': 0.8158, 'grad_norm': 13.352067947387695, 'learning_rate': 2.7019670176832906e-05, 'epoch': 0.09934432743890324}
+{'loss': 0.4068, 'grad_norm': 13.18603515625, 'learning_rate': 2.4039340353665805e-05, 'epoch': 0.1986886548778065}
+{'loss': 0.3123, 'grad_norm': 5.148080825805664, 'learning_rate': 2.105901053049871e-05, 'epoch': 0.2980329823167097}
+{'loss': 0.2587, 'grad_norm': 30.832212448120117, 'learning_rate': 1.8078680707331612e-05, 'epoch': 0.397377309755613}
+{'loss': 0.2167, 'grad_norm': 41.04315185546875, 'learning_rate': 1.5098350884164513e-05, 'epoch': 0.4967216371945162}
+{'loss': 0.2, 'grad_norm': 1.3425817489624023, 'learning_rate': 1.2118021060997418e-05, 'epoch': 0.5960659646334194}
+{'loss': 0.1705, 'grad_norm': 13.861135482788086, 'learning_rate': 9.13769123783032e-06, 'epoch': 0.6954102920723226}
+{'loss': 0.1486, 'grad_norm': 14.26961612701416, 'learning_rate': 6.157361414663222e-06, 'epoch': 0.794754619511226}
+{'loss': 0.1406, 'grad_norm': 10.53478717803955, 'learning_rate': 3.1770315914961256e-06, 'epoch': 0.8940989469501291}
+{'loss': 0.1304, 'grad_norm': 24.095645904541016, 'learning_rate': 1.967017683290284e-07, 'epoch': 0.9934432743890323}
+{'eval_loss': 0.4814856946468353, 'eval_runtime': 1092.2224, 'eval_samples_per_second': 180.812, 'eval_steps_per_second': 0.707, 'epoch': 1.0}
+{'train_runtime': 2438.9591, 'train_samples_per_second': 33.012, 'train_steps_per_second': 2.064, 'train_loss': 0.2793402639601639, 'epoch': 1.0}
+Post-processing 1164354 example predictions split into 1360975 features.
+{
+    "134": {
+        "QA": {
+            "exact_match": 90.16726072925196,
+            "f1": 96.14352539124798
+        },
+        "PR": {
+            "p@1": 0.9630617503973797,
+            "p@2": 0.9931963778238042,
+            "p@3": 0.9964476662973846
+        },
+        "PRQA": {
+            "exact_match": 87.64691007176918,
+            "f1": 93.83933896686455
+        }
+    }
+}
+slurmstepd: error: common_file_write_uint32s: write pid 1214321 to /sys/fs/cgroup/cgroup.procs failed: Device or resource busy
+slurmstepd: error: Unable to move pid 1214321 to init root cgroup /sys/fs/cgroup
+slurmstepd: error: error unlocking cgroup '/sys/fs/cgroup/system.slice/slurmstepd.scope' : Bad file descriptor

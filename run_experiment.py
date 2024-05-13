@@ -29,7 +29,7 @@ parser.add_argument('--model_path', type=str, default='../models/Bio_ClinicalBER
 parser.add_argument('--fts', metavar='N', type=int, nargs='+', default=[165])
 parser.add_argument('--target_average', type=int, default=500)
 # random
-parser.add_argument('--seed', type=int, help='random seed', default=54)
+parser.add_argument('--seed', type=int, help='random seed', default=2)
 
 
 

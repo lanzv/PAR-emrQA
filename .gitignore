@@ -161,9 +161,9 @@ cython_debug/
 
 # Data
 /data
-
+/biomistral_trained_medication
+/biomistral_trained_relations
 
 # Model checkpoints
 /model_output_dir
 Untitled.ipynb
-*.out

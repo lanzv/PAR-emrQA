@@ -57,7 +57,7 @@ def main(args):
     random.seed(args.seed)
     with open(args.data_path, 'r') as f:
         dataset = json.load(f)
-
+    train_originals = {}
     for title, train_sample_ratio in zip(args.topics, args.train_sample_ratios):
         curr_data = None
         # find the given sub dataset
@@ -84,7 +84,7 @@ def main(args):
         test = {'data': [], 'version': 1.0}
         for i in range(train_note_num + dev_note_num, note_num):
             test['data'].append(curr_data['data'][note_list[i]])
-
+        train_originals[title] = train
         # sample dataset
         if train_sample_ratio < 1.0:
             train = sample_dataset(train, train_sample_ratio)
@@ -97,7 +97,13 @@ def main(args):
         with open(os.path.join(args.target_dir, "{}-test.json".format(title)), "w") as jsonFile:
             json.dump(test, jsonFile)
 
-
+    for title, train_sample_ratio in zip(args.topics, args.train_sample_ratios):
+        random.seed(2)
+        # sample dataset
+        if train_sample_ratio < 1.0:
+            train = sample_dataset(train_originals[title], train_sample_ratio)
+        with open(os.path.join(args.target_dir, "{}-train.json".format(title)), "w") as jsonFile:
+            json.dump(train, jsonFile)
 
 if __name__ == '__main__':
     args = parser.parse_args()

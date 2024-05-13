@@ -2,8 +2,7 @@ import uuid
 import random
 from datasets import Dataset
 
-def emrqa2qa_dataset(dataset, seed=54):
-    balanced = True
+def emrqa2qa_dataset(dataset, seed=54, balanced=True):
     data = {
         'id': [],
         'title': [],

@@ -1,0 +1,88 @@
+2024-05-11 15:10:20 INFO     ------------- Experiment: model BERTbase, frequency threshold 121 ---------------
+2024-05-11 15:10:20 INFO     Contexts were splited into 4977 sentence groups, which are 27.19672131147541 groups on average per one report
+2024-05-11 15:10:21 INFO     Contexts were splited into 552 paragraphs, which are 3.0163934426229506 paragraphs on average per one report. There are 2 unique topics with frequency threshold (greater or equal) 121. The overall paragraph average length (characters) is 2212.0072463768115
+2024-05-11 15:10:21 INFO     Contexts were splited into 818 sentence groups, which are 31.46153846153846 groups on average per one report
+2024-05-11 15:10:21 INFO     Contexts were splited into 44 paragraphs, which are 1.6923076923076923 paragraphs on average per one report. There are 2 unique topics with frequency threshold (greater or equal) 121. The overall paragraph average length (characters) is 4164.931818181818
+2024-05-11 15:10:22 INFO     Contexts were splited into 1362 sentence groups, which are 25.69811320754717 groups on average per one report
+2024-05-11 15:10:23 WARNING  The evidenc 'CEFPODOXIME PROXETIL 200 MG PO BID X 16 doses
+Food/Drug Interaction Instruction Give with meals
+' is in wrong format and it does not occure in the paragraph 'POTENTIALLY SERIOUS INTERACTION: WARFARIN &amp; SIMVASTATIN
+Reason for override: already tolerated , home medication ,
+aware
+CEFPODOXIME PROXETIL 200 MG PO BID X 16 doses
+Starting Today ( 6/25 ) HOLD IF: rash
+Food/Drug Interaction Instruction Give with meals
+Alert overridden: Override added on 11/4/05 by :
+on order for CEFPODOXIME PROXETIL PO ( ref # 703442345 )
+Pt. has a POSSIBLE allergy to Penicillins; reaction is
+RASH. Reason for override: cannot tolerate floroquinolones
+and needs gram neg coverage. has
+tolerated cefalosporins well in the past.
+'
+2024-05-11 15:10:23 INFO     Contexts were splited into 148 paragraphs, which are 2.792452830188679 paragraphs on average per one report. There are 2 unique topics with frequency threshold (greater or equal) 121. The overall paragraph average length (characters) is 2323.0337837837837
+2024-05-11 15:10:31 INFO     datasets are converted to Datset format
+Some weights of BertForQuestionAnswering were not initialized from the model checkpoint at ../models/bert-base-cased and are newly initialized: ['qa_outputs.bias', 'qa_outputs.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+2024-05-11 15:14:44 INFO     training data are prepared
+/home/lanz/.local/lib/python3.10/site-packages/transformers/training_args.py:1463: FutureWarning: `evaluation_strategy` is deprecated and will be removed in version 4.46 of 🤗 Transformers. Use `eval_strategy` instead
+  warnings.warn(
+2024-05-11 16:45:14 INFO     the model is trained
+2024-05-11 16:51:09 INFO     evaluation data are prepared
+2024-05-11 18:09:53 INFO     QA scores: {'exact_match': 28.173188436922814, 'f1': 68.32181949398704}
+2024-05-11 18:09:53 INFO     PR scores: {'p@1': 0.9723164812508054, 'p@2': 0.9942012800137451, 'p@3': 0.9976375585241184}
+2024-05-11 18:09:56 INFO     PRQA scores: {'exact_match': 27.339890898157297, 'f1': 67.22441808417508}
+{'loss': 1.1385, 'grad_norm': 8.65180492401123, 'learning_rate': 2.906442961392129e-05, 'epoch': 0.03118567953595709}
+{'loss': 0.7909, 'grad_norm': 3.21986985206604, 'learning_rate': 2.8128859227842575e-05, 'epoch': 0.06237135907191418}
+{'loss': 0.6979, 'grad_norm': 9.003674507141113, 'learning_rate': 2.7193288841763863e-05, 'epoch': 0.09355703860787126}
+{'loss': 0.6279, 'grad_norm': 11.607172012329102, 'learning_rate': 2.6257718455685152e-05, 'epoch': 0.12474271814382835}
+{'loss': 0.5938, 'grad_norm': 5.110641002655029, 'learning_rate': 2.5322148069606437e-05, 'epoch': 0.15592839767978545}
+{'loss': 0.5449, 'grad_norm': 12.393000602722168, 'learning_rate': 2.4386577683527723e-05, 'epoch': 0.18711407721574252}
+{'loss': 0.5131, 'grad_norm': 9.927517890930176, 'learning_rate': 2.345100729744901e-05, 'epoch': 0.21829975675169963}
+{'loss': 0.4732, 'grad_norm': 4.34118127822876, 'learning_rate': 2.25154369113703e-05, 'epoch': 0.2494854362876567}
+{'loss': 0.4538, 'grad_norm': 17.12479591369629, 'learning_rate': 2.1579866525291585e-05, 'epoch': 0.2806711158236138}
+{'loss': 0.4128, 'grad_norm': 3.8320600986480713, 'learning_rate': 2.0644296139212874e-05, 'epoch': 0.3118567953595709}
+{'loss': 0.4092, 'grad_norm': 8.839080810546875, 'learning_rate': 1.9708725753134163e-05, 'epoch': 0.34304247489552797}
+{'loss': 0.375, 'grad_norm': 7.771212577819824, 'learning_rate': 1.8773155367055448e-05, 'epoch': 0.37422815443148505}
+{'loss': 0.3697, 'grad_norm': 5.588316440582275, 'learning_rate': 1.7837584980976737e-05, 'epoch': 0.4054138339674421}
+{'loss': 0.3355, 'grad_norm': 13.935365676879883, 'learning_rate': 1.6902014594898026e-05, 'epoch': 0.43659951350339926}
+{'loss': 0.3476, 'grad_norm': 10.106962203979492, 'learning_rate': 1.596644420881931e-05, 'epoch': 0.46778519303935634}
+{'loss': 0.3041, 'grad_norm': 3.8602817058563232, 'learning_rate': 1.50308738227406e-05, 'epoch': 0.4989708725753134}
+{'loss': 0.3022, 'grad_norm': 12.277336120605469, 'learning_rate': 1.4095303436661885e-05, 'epoch': 0.5301565521112706}
+{'loss': 0.2844, 'grad_norm': 16.01355743408203, 'learning_rate': 1.3159733050583174e-05, 'epoch': 0.5613422316472276}
+{'loss': 0.2648, 'grad_norm': 3.631070137023926, 'learning_rate': 1.2224162664504459e-05, 'epoch': 0.5925279111831847}
+{'loss': 0.2536, 'grad_norm': 10.816723823547363, 'learning_rate': 1.1288592278425748e-05, 'epoch': 0.6237135907191418}
+{'loss': 0.2448, 'grad_norm': 18.049053192138672, 'learning_rate': 1.0353021892347035e-05, 'epoch': 0.6548992702550989}
+{'loss': 0.2541, 'grad_norm': 7.756516933441162, 'learning_rate': 9.417451506268322e-06, 'epoch': 0.6860849497910559}
+{'loss': 0.227, 'grad_norm': 19.244327545166016, 'learning_rate': 8.48188112018961e-06, 'epoch': 0.717270629327013}
+{'loss': 0.2082, 'grad_norm': 4.283196449279785, 'learning_rate': 7.546310734110897e-06, 'epoch': 0.7484563088629701}
+{'loss': 0.2023, 'grad_norm': 15.4931640625, 'learning_rate': 6.610740348032184e-06, 'epoch': 0.7796419883989272}
+{'loss': 0.198, 'grad_norm': 30.277183532714844, 'learning_rate': 5.675169961953471e-06, 'epoch': 0.8108276679348843}
+{'loss': 0.2026, 'grad_norm': 25.74433135986328, 'learning_rate': 4.739599575874758e-06, 'epoch': 0.8420133474708414}
+{'loss': 0.2016, 'grad_norm': 25.44333839416504, 'learning_rate': 3.804029189796046e-06, 'epoch': 0.8731990270067985}
+{'loss': 0.1739, 'grad_norm': 7.015985012054443, 'learning_rate': 2.868458803717333e-06, 'epoch': 0.9043847065427556}
+{'loss': 0.1829, 'grad_norm': 9.680068016052246, 'learning_rate': 1.9328884176386205e-06, 'epoch': 0.9355703860787127}
+{'loss': 0.168, 'grad_norm': 24.0192813873291, 'learning_rate': 9.973180315599077e-07, 'epoch': 0.9667560656146698}
+{'loss': 0.1708, 'grad_norm': 18.817562103271484, 'learning_rate': 6.174764548119504e-08, 'epoch': 0.9979417451506268}
+{'eval_loss': 0.7980251908302307, 'eval_runtime': 1087.196, 'eval_samples_per_second': 178.78, 'eval_steps_per_second': 0.699, 'epoch': 1.0}
+{'train_runtime': 5430.1341, 'train_samples_per_second': 47.241, 'train_steps_per_second': 2.953, 'train_loss': 0.37229023180190546, 'epoch': 1.0}
+Post-processing 138930 example predictions split into 471816 features.
+{
+    "121": {
+        "QA": {
+            "exact_match": 28.173188436922814,
+            "f1": 68.32181949398704
+        },
+        "PR": {
+            "p@1": 0.9723164812508054,
+            "p@2": 0.9942012800137451,
+            "p@3": 0.9976375585241184
+        },
+        "PRQA": {
+            "exact_match": 27.339890898157297,
+            "f1": 67.22441808417508
+        }
+    }
+}
+slurmstepd: error: common_file_write_uint32s: write pid 2670414 to /sys/fs/cgroup/cgroup.procs failed: Device or resource busy
+slurmstepd: error: Unable to move pid 2670414 to init root cgroup /sys/fs/cgroup
+slurmstepd: error: error unlocking cgroup '/sys/fs/cgroup/system.slice/slurmstepd.scope' : Bad file descriptor
