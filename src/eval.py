@@ -9,6 +9,8 @@ class Evaluate:
         predictions ~ {"id1": "answer text", "id2": "answer text2", ...}
         prediction for the same question from different paragraph is chosen only one,depending on the min cls
         """
+        if len(predictions) == 0:
+            return {'exact_match': 0.0, 'f1': 0.0}
         return evaluate.evaluate(gold_data["data"], predictions)
 
     def paragraph_retrieval(gold_data, predictions):
@@ -17,6 +19,8 @@ class Evaluate:
         predictions ~ {"id1": [3, 5, 2, ...], "id2": [2, 1, 10, 0, ..], "id3": [21, 14, 18, 3, ..]} of top paragraphs
         the given list is sorted list of the top confident paragraphs
         """
+        if len(predictions) == 0:
+            return {"p@1": 0.0, "p@2": 0.0, "p@3": 0.0}
         # prepare gold paragraphs
         correct1 = 0
         correct2 = 0

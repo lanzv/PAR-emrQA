@@ -21,6 +21,7 @@ parser.add_argument('--dev_ratio', type=float, default=0.1)
 parser.add_argument('--topics', metavar='N', type=str, nargs='+', default=["medication", "relations"])
 parser.add_argument('--train_sample_ratios', metavar='N', type=float, nargs='+', default=[0.2, 0.05])
 parser.add_argument('--seed', type=int, help='random seed', default=55)
+parser.add_argument('--train_seed', type=int, help='random seed', default=2)
 
 
 
@@ -87,7 +88,7 @@ def main(args):
         train_originals[title] = train
         # sample dataset
         if train_sample_ratio < 1.0:
-            train = sample_dataset(train, train_sample_ratio)
+            new_train = sample_dataset(train, train_sample_ratio)
 
         # save splited dataset
         with open(os.path.join(args.target_dir, "{}-train.json".format(title)), "w") as jsonFile:
@@ -98,7 +99,7 @@ def main(args):
             json.dump(test, jsonFile)
 
     for title, train_sample_ratio in zip(args.topics, args.train_sample_ratios):
-        random.seed(2)
+        random.seed(args.train_seed)
         # sample dataset
         if train_sample_ratio < 1.0:
             train = sample_dataset(train_originals[title], train_sample_ratio)

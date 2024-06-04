@@ -4,7 +4,7 @@ from src.paragraphizer import Paragraphizer
 from src.eval import Evaluate
 from src.models.bert import BERTWrapperPRQA
 from src.models.llm import LLMWrapperPRQA
-from src.models.dataset import emrqa2prqa_dataset, emrqa2qa_dataset
+from src.models.dataset import emrqa2prqa_dataset, emrqa2qa_dataset, get_dataset_bert_format, get_dataset_llm_format
 import json
 import random
 from datasets.utils.logging import disable_progress_bar
@@ -39,11 +39,15 @@ parser.add_argument('--seed', type=int, help='random seed', default=2)
 MODELS = {
     "BERTbase": lambda model_path: BERTWrapperPRQA(model_path),
     "ClinicalBERT": lambda model_path: BERTWrapperPRQA(model_path),
-    "Me-LLaMA": lambda model_path: LLMWrapperPRQA(model_path),
     "BioMistral": lambda model_path: LLMWrapperPRQA(model_path),
 }
 
 
+PREPARE_DATASET = {
+    "BERTbase": lambda train_pars, dev_pars, test_pars: get_dataset_bert_format(train_pars, dev_pars, test_pars),
+    "ClinicalBERT": lambda train_pars, dev_pars, test_pars: get_dataset_bert_format(train_pars, dev_pars, test_pars),
+    "BioMistral": lambda train_pars, dev_pars, test_pars: get_dataset_llm_format(train_pars, dev_pars, test_pars),
+}
 
 
 def main(args):
@@ -65,9 +69,7 @@ def main(args):
         train_pars, train_topics = Paragraphizer.paragraphize(data = train, title=args.dataset_title, frequency_threshold = ft, target_average=args.target_average)
         dev_pars, _ = Paragraphizer.paragraphize(data = dev, title=args.dataset_title, frequency_threshold = ft, topics=train_topics, target_average=args.target_average)
         test_pars, _  = Paragraphizer.paragraphize(data = test, title=args.dataset_title, frequency_threshold = ft, topics=train_topics, target_average=args.target_average)
-        train_dataset = emrqa2qa_dataset(train_pars)
-        dev_dataset = emrqa2qa_dataset(dev_pars)
-        test_prqa_dataset = emrqa2prqa_dataset(test_pars)
+        train_dataset, dev_dataset, test_prqa_dataset = PREPARE_DATASET[args.model_name](train_pars, dev_pars, test_pars)
         logging.info("datasets are converted to Datset format")
         # train model
         model = MODELS[args.model_name](args.model_path)

@@ -1,6 +1,15 @@
 import uuid
 import random
 from datasets import Dataset
+import json
+from dataclasses import dataclass, field
+from textwrap import dedent
+from types import SimpleNamespace
+from typing import Optional
+
+import yaml
+from datasets import DatasetDict, load_dataset
+
 
 def emrqa2qa_dataset(dataset, seed=54, balanced=True):
     data = {
@@ -112,3 +121,90 @@ def emrqa2prqa_dataset(dataset, seed=54):
 
     test_data = Dataset.from_dict(data)
     return {"test_data": test_data, "report_boundaries": report_boundaries, "question_ids": question_ids, "gold_paragraphs": gold_paragraphs}
+
+
+def get_dataset_bert_format(train_pars, dev_pars, test_pars):
+    train_dataset = emrqa2qa_dataset(train_pars)
+    dev_dataset = emrqa2qa_dataset(dev_pars)
+    test_prqa_dataset = emrqa2prqa_dataset(test_pars)
+    return train_dataset, dev_dataset, test_prqa_dataset
+
+
+def get_dataset_llm_format(train_pars, dev_pars, test_pars):
+    train_pars = emrqa2qa_dataset(train, balanced=False)
+    dev_pars = emrqa2qa_dataset(dev_pars, balanced=False)
+    test_pars = emrqa2qa_dataset(test_pars, balanced=False)
+
+    llm_train = convert_format_bert2llm(train_pars)
+    llm_dev = convert_format_bert2llm(dev_pars).train_test_split(test_size=0.05)["test"]
+    llm_test = convert_format_bert2llm(test_pars)
+
+    return llm_train, llm_dev, test_prqa_dataset
+
+
+def convert_format_bert2llm(bert_dataset):
+    return bert_dataset.map(get_single_turn_prompt_and_response)
+
+
+@dataclass
+class ScriptArguments:
+    prompt: Optional[str] = field(
+        default="single_turn",
+        metadata={"help": "single_turn, multi_turn"},
+    )
+    validation_ratio: Optional[float] = field(
+        default=0.005,
+        metadata={"help": "Validation ratio"},
+    )
+    seed: Optional[int] = field(
+        default=42,
+        metadata={"help": "Seed for the random number generator"},
+    )
+
+
+def get_single_turn_prompt_and_response(item, all_answers=False):
+    context = item["context"]
+    question = item["question"]
+    answers = item["answers"]["text"]
+    if len(answers) == 0:
+        answers = ["?"]
+    if not all_answers:
+        answers = answers[0]
+    answers = json.dumps(answers)
+    system_prompt = """You are a helpful, respectful and honest assistant. Always answer as helpfully as possible, while being safe. Your answers should not include any harmful, unethical, racist, sexist, toxic, dangerous, or illegal content. Please ensure that your responses are socially unbiased and positive in nature.
+If a question does not make any sense, or is not factually coherent, explain why instead of answering something not correct. If you don't know the answer to a question, please don't share false information."""
+
+    return {
+        "messages": [
+            #{"role": "user", "content": system_prompt},
+            #{"role": "assistant", "content": "I will."},
+            {
+                "role": "user",
+                "content": dedent(
+                    f"""\
+                    Extract from the following context the minimal span word for word that best answers the question. Think step by step and explain your reasoning. Then give the answer in JSON format as follows:
+                    ```json
+                    {{
+                      "answer": ...
+                    }}
+                    ```
+                    If the answer is not in the context, the answer should be "?".
+                    Context: {context}
+                    Question: {question}"""
+                ),
+            },
+            {
+                "role": "assistant",
+                "content": dedent(
+                    f"""\
+                    
+                    ```json
+                    {{
+                      "answer": {answers}
+                    }}
+                    ```"""
+                ),
+            },
+        ]
+    }
+

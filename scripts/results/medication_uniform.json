@@ -1,5 +1,5 @@
 {
-    "BERTbase": {
+    "BERT-base": {
         "seed=2": {
             "0": {
                 "QA": {
