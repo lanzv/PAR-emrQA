@@ -35,7 +35,7 @@ class LLMWrapperPRQA:
         self.model, self.peft_config, self.tokenizer = create_and_prepare_model(model_name)
 
     
-    def train(self, llm_train, llm_dev, epochs=3, disable_tqdm=False):
+    def train(self, llm_train, llm_dev, epochs=10, disable_tqdm=False):
         training_arguments = TrainingArguments(
             save_strategy="no",
             output_dir="./model_output_dir",

@@ -123,23 +123,23 @@ def emrqa2prqa_dataset(dataset, seed=54):
     return {"test_data": test_data, "report_boundaries": report_boundaries, "question_ids": question_ids, "gold_paragraphs": gold_paragraphs}
 
 
-def get_dataset_bert_format(train_pars, dev_pars, test_pars):
-    train_dataset = emrqa2qa_dataset(train_pars)
-    dev_dataset = emrqa2qa_dataset(dev_pars)
-    test_prqa_dataset = emrqa2prqa_dataset(test_pars)
+def get_dataset_bert_format(train, dev, test):
+    train_dataset = emrqa2qa_dataset(train)
+    dev_dataset = emrqa2qa_dataset(dev)
+    test_prqa_dataset = emrqa2prqa_dataset(test)
     return train_dataset, dev_dataset, test_prqa_dataset
 
 
-def get_dataset_llm_format(train_pars, dev_pars, test_pars):
+def get_dataset_llm_format(train, dev, test):
     train_pars = emrqa2qa_dataset(train, balanced=False)
-    dev_pars = emrqa2qa_dataset(dev_pars, balanced=False)
-    test_pars = emrqa2qa_dataset(test_pars, balanced=False)
+    dev_pars = emrqa2qa_dataset(dev, balanced=False)
+    test_pars = emrqa2qa_dataset(test, balanced=False)
 
     llm_train = convert_format_bert2llm(train_pars)
     llm_dev = convert_format_bert2llm(dev_pars).train_test_split(test_size=0.05)["test"]
     llm_test = convert_format_bert2llm(test_pars)
 
-    return llm_train, llm_dev, test_prqa_dataset
+    return llm_train, llm_dev, llm_test # llm_test is not prqa dataset
 
 
 def convert_format_bert2llm(bert_dataset):
