@@ -28,6 +28,7 @@ parser.add_argument('--model_path', type=str, default='../models/Bio_ClinicalBER
 # paragraphizing
 parser.add_argument('--fts', metavar='N', type=int, nargs='+', default=[165])
 parser.add_argument('--target_average', type=int, default=500)
+parser.add_argument('--epochs', type=int, default=1)
 # random
 parser.add_argument('--seed', type=int, help='random seed', default=2)
 
@@ -39,6 +40,8 @@ parser.add_argument('--seed', type=int, help='random seed', default=2)
 MODELS = {
     "BERTbase": lambda model_path: BERTWrapperPRQA(model_path),
     "ClinicalBERT": lambda model_path: BERTWrapperPRQA(model_path),
+    "BioLORD": lambda model_path: BERTWrapperPRQA(model_path),
+    "MedCPT": lambda model_path: BERTWrapperPRQA(model_path),
     "BioMistral": lambda model_path: LLMWrapperPRQA(model_path),
 }
 
@@ -46,6 +49,8 @@ MODELS = {
 PREPARE_DATASET = {
     "BERTbase": lambda train_pars, dev_pars, test_pars: get_dataset_bert_format(train_pars, dev_pars, test_pars),
     "ClinicalBERT": lambda train_pars, dev_pars, test_pars: get_dataset_bert_format(train_pars, dev_pars, test_pars),
+    "BioLORD": lambda train_pars, dev_pars, test_pars: get_dataset_bert_format(train_pars, dev_pars, test_pars),
+    "MedCPT": lambda train_pars, dev_pars, test_pars: get_dataset_bert_format(train_pars, dev_pars, test_pars),
     "BioMistral": lambda train_pars, dev_pars, test_pars: get_dataset_llm_format(train_pars, dev_pars, test_pars),
 }
 
@@ -73,7 +78,7 @@ def main(args):
         logging.info("datasets are converted to Datset format")
         # train model
         model = MODELS[args.model_name](args.model_path)
-        model.train(train_dataset, dev_dataset, disable_tqdm=True)
+        model.train(train_dataset, dev_dataset, epochs=args.epochs, disable_tqdm=True)
         qa_predictions, pr_predictions, prqa_predictions = model.predict(test_prqa_dataset, disable_tqdm=True)
         # evaluate
         qa_scores = Evaluate.question_answering(test, qa_predictions)
