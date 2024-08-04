@@ -5,6 +5,30 @@ from collections import Counter
 from src.paragraphs.utils import paragraphize_by_topics, postprocess_sentence_groups
 
 def paragraphize_medication(data, frequency_threshold, topics=None):
+    """
+    Paragraphize medication emrQA subset
+    Segmented medication emrQA into paragraphs based on the headings defined 
+    via the topics (or discovered by its own if None) and frequency_threshold
+
+
+    Parameters
+    ----------
+    data: dict
+        filtered SQuAD-like formated dataset of the emrQA subset 
+        only the context is kept the same with "answer_line", "original_evidence" corresponding to this context as part of the answer object
+        the normalized context (the SQuAD-like one) is stored as the "norm_context" next to "context"
+    frequency_threshold: int
+        number of occurrences of headings that serve as paragraph separators
+    topics: collections.Counter or None
+        Counter of topics and their occurrences in training data
+        if not set, paragraphizer will find its own Counter, otherwise it uses given data
+    Returns
+    -------
+    paragraphs: list of lists of strings
+        list of segmented paragraphs represented as a list of strings (paragrpahs) for each report
+    topics: collections.Counter
+        currently used topics Counter - either the passed one, or if was none passed, the newly created one
+    """
     sentence_groups = __split_medication_to_sentence_groups(data, new_lines = True)
     sentence_groups = postprocess_sentence_groups(data, sentence_groups)
     paragraphs, topics = paragraphize_by_topics(sentence_groups, frequency_threshold, topics)
@@ -13,7 +37,28 @@ def paragraphize_medication(data, frequency_threshold, topics=None):
 
 def __split_medication_to_sentence_groups(data, new_lines = True):
     """
-    data ~ data.json["data"][1], where data["topics] = "medication"
+    Split medication reports into list of sentence groups (where we are 
+    99% sure that there is no incompleted sentence as part of the single group)
+     - split by dots
+        - i. line ends with 'abcde.'
+        - (i+1). line starts with 'A' (uppercased)
+     - split by headings
+        - 'HEADING:' or 'Heading :' at the beginning of the line
+
+    Parameters
+    ----------
+    data: dict
+        filtered SQuAD-like formated dataset of the emrQA subset 
+        only the context is kept the same with "answer_line", "original_evidence" corresponding to this context as part of the answer object
+        the normalized context (the SQuAD-like one) is stored as the "norm_context" next to "context"
+        data ~ data.json["data"][1], where data["topics] = "medication"
+    new_lines: bool
+        if True, keep new lines, otherwise replace them by empty strings
+    Returns
+    -------
+    sentence_groups: list of lists of strings
+        for each reprot, there is a list of passages where each ends definitaly (99%) ends with the completed 
+        sentence (no incompleted sentences included) forming the whole report 
     """ 
     # split by dots function
     def dot_split(block):

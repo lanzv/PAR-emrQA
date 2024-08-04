@@ -5,14 +5,57 @@ from collections import Counter
 from src.paragraphs.utils import paragraphize_by_topics
 
 def paragraphize_uniformly(data, frequency_threshold, target_average, topics = None):
-    paragraphs, _ = __split_to_paragraphs_uniformly(data, target_average)
-    return paragraphs, None
+    """
+    Paragraphize emrQA subset uniformly - both, medication, relations, ..
+    Each paragraph has the same (at least very similar) length
+    Each answer's beginning and end lay at the same paragraph
+
+    Parameters
+    ----------
+    data: dict
+        filtered SQuAD-like formated dataset of the emrQA subset 
+        only the context is kept the same with "answer_line", "original_evidence" corresponding to this context as part of the answer object
+        the normalized context (the SQuAD-like one) is stored as the "norm_context" next to "context"
+    frequency_threshold: int
+        no effect, only for the code generality
+    target_average: int
+        target average paragraph length (characters)
+        the final paragraph average length will be the most possible closest one
+    topics: None
+        no effect, only for the code generality
+    Returns
+    -------
+    segments: list of lists of strings
+        list of segmented paragraphs represented as a list of strings (paragrpahs) for each report
+    topics: None
+    """
+    segments, _ = __split_to_paragraphs_uniformly(data, target_average)
+    return segments, None
 
 
 
 def __split_to_paragraphs_uniformly(data, target_average):
     """
-    """
+    For each report:
+        1. find the closest average segment length to the given target_average
+        2. segment report uniformly that each paragraph has the same length
+        3. shift segment boundaries in order to make sure there is no answer text splited into two separated segments
+
+    Parameters
+    ----------
+    data: dict
+        filtered SQuAD-like formated dataset of the emrQA subset 
+        only the context is kept the same with "answer_line", "original_evidence" corresponding to this context as part of the answer object
+        the normalized context (the SQuAD-like one) is stored as the "norm_context" next to "context"
+    target_average: int
+        target average paragraph length (characters)
+        the final paragraph average length will be the most possible closest one
+    Returns
+    -------
+    paragraphs: list of lists of strings
+        list of report segments represented as a list of strings (segments) for each report
+    topics: None
+    """ 
     paragraphs = []
     counts = []
     paragraphs_lengths = []

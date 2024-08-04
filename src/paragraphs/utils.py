@@ -6,6 +6,27 @@ from collections import Counter
 
 
 def postprocess_sentence_groups(data, sentence_groups):
+    """
+    Postprocess sentence group texts - merge such groups that contain 
+    different parts of the same answer text
+    Check and assert all invalid answer text (that are already invalid in the original emrQA
+    - for instance there are two lines in as answer evidence which should not be based on
+    the definition)
+
+    Parameters
+    ----------
+    data: dict
+        filtered SQuAD-like formated dataset of the emrQA subset 
+        only the context is kept the same with "answer_line", "original_evidence" corresponding to this context as part of the answer object
+        the normalized context (the SQuAD-like one) is stored as the "norm_context" next to "context"
+    sentence_groups: list of lists of strings
+        for each reprot, there is a list of passages where each ends definitaly (99%) ends with the completed 
+        sentence (no incompleted sentences included) forming the whole report 
+    Returns
+    -------
+    new_sentence_groups: list of lists of strings
+        sentence groups that don't split the answer texts
+    """
     new_sentence_groups = []
     for report, rep_sgs in zip(data["data"], sentence_groups):
         new_sgs = rep_sgs
@@ -59,6 +80,32 @@ def postprocess_sentence_groups(data, sentence_groups):
 
 
 def paragraphize_by_topics(sentence_groups, frequency_threshold = 50, topics = None, topic_regex = r'(^([0-9]+[\s]*[\.\)][\s]*)?[A-Z][a-zA-Z\s\(\)]*:)'):
+    """
+    Consider all sentence groups, find all possible topics at the beginning 
+    of each sentence group using the topic_regex, check with such topic is 
+    more frequentu than frequency_threshold in the topics (or in these 
+    sentence_groups topics if topics parameter is None) and merge sentence groups
+    together till there is such group containing heading which fulfill the frequency_threshold condition
+
+    Parameters
+    ----------
+    sentence_groups: list of lists of strings
+        for each reprot, there is a list of passages where each ends definitaly (99%) ends with the completed 
+        sentence (no incompleted sentences included) forming the whole report 
+    frequency_threshold: int
+        number of occurrences of headings that serve as paragraph separators
+    topics: collections.Counter or None
+        Counter of topics and their occurrences in training data
+        if not set, paragraphizer will find its own Counter, otherwise it uses given data
+    topic_regex: str
+        regex to indentify headings at the beginnings, for instance 'Subsection Title (Part 1):'
+    Returns
+    -------
+    paragraphs: list of lists of strings
+        list of segmented paragraphs represented as a list of strings (paragrpahs) for each report
+    topics: collections.Counter
+        currently used topics Counter - either the passed one, or if was none passed, the newly created one
+    """
     # Get frequencies of topics over all reports
     if topics == None:
         topics = []
@@ -104,7 +151,18 @@ def paragraphize_by_topics(sentence_groups, frequency_threshold = 50, topics = N
 
 def prune_sentence(sent):
     """
-    Authors: CliniRC
+    Authors: https://github.com/xiangyue9607/CliniRC
+    
+    Normalize the given sentence (replace special characters by its alternatives, etc..)
+
+    Parameters
+    ----------
+    sent: str
+        sentence to be pruned
+    Returns
+    -------
+    sent: str
+        pruned sentence
     """
     sent = ' '.join(sent.split())
     # replace html special tokens
@@ -127,6 +185,20 @@ def prune_sentence(sent):
 
 
 def find_substring_offsets(string, substring):
+    """
+    Find all occurrences of substring in the given string and return their offsets
+
+    Parameters
+    ----------
+    string: str
+        string (possibly) containing the substring
+    substring: str
+        substring (possibly) part of the string (could be many times)
+    Returns
+    -------
+    offsets: list of ints
+        list of offsets of all substring occurrences in the string
+    """
     offsets = []
     start = 0
     while True:
