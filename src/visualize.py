@@ -53,6 +53,19 @@ medication_uniform_map = {
 
 
 def plot_scores_QAPR(scores_dict, model, experiment_title='relations'):
+    """
+    Plot the charts of PR, Oracle-QA, and PRQA where x-axis stands for 
+    paragraph average length, and y-axis for exact match (EM), F1, P@1, P@2, P@3
+
+    Parameters
+    ----------
+    scores_dict: dict
+        dictionary of scores in the format {"model_name": {"seed=2": {ft: {"QA": {..}, "PR": {..}, "PRQA": {..}}....
+    model: str
+        model name, for instance ClinicalBERT, the one in the scores_dict
+    experiment_title: str
+        one of ['medication', 'relation', 'medication_uniform', 'relations_uniform']
+    """
     if experiment_title == "relations":
         title = "Relations, heading-based"
         ft_map = relations_map
@@ -184,6 +197,25 @@ def plot_scores_QAPR(scores_dict, model, experiment_title='relations'):
 
 
 def visualize_dataset_stats(fts= [0, 68, 134, 143, 149, 154, 157, 190, 198],title = "relations"):
+    """
+    Visualize emrQA statistics
+    1. graph
+     - 1.1 graph: QA-pairs for training
+     - 1.2 graph: QA-pairs for dev
+     - 1.3 graph: QA-pairs for test
+    2. graph
+     - heading frequency histogram for train
+    3. graph
+     - average + max + min of train/dev/test paragraphs given heading frequency
+     - average + max + min of train/dev/test paragraphs with answer given heading frequency        
+
+    Parameters
+    ----------
+    fts: list of ints
+        frequency thresholds, points where are the values computed at 
+    title: str
+        either medication or relations
+    """
     import logging
     import json
     from src.paragraphizer import Paragraphizer
@@ -213,7 +245,6 @@ def visualize_dataset_stats(fts= [0, 68, 134, 143, 149, 154, 157, 190, 198],titl
     qa_pairs_dev = []
     qa_pairs_test = []
     # histogram frequencies
-    # todo generated from train_topics 
     _, train_topics = Paragraphizer.paragraphize(data = train, title=title, frequency_threshold = 0)
     # average paragraph lengths
     par_lengths_train = []
@@ -308,14 +339,14 @@ def visualize_dataset_stats(fts= [0, 68, 134, 143, 149, 154, 157, 190, 198],titl
     #   - 1.1 graph: QA-pairs for training
     #   - 1.2 graph: QA-pairs for dev
     #   - 1.3 graph: QA-pairs for test
-    #show_qapairs(x, qa_pairs_train, "Train")
-    #show_qapairs(x, qa_pairs_dev, "Dev")
-    #show_qapairs(x, qa_pairs_test, "Test")
+    show_qapairs(x, qa_pairs_train, "Train")
+    show_qapairs(x, qa_pairs_dev, "Dev")
+    show_qapairs(x, qa_pairs_test, "Test")
     # 2. graph
     #   - heading frequency histogram for train
     show_heading_histogram(train_topics)
     # 3. graph
     #   - average + max + min of train/dev/test paragraphs given heading frequency
     #   - average + max + min of train/dev/test paragraphs with answer given heading frequency
-    #show_par_avg_lens(x, par_lengths_train, par_lengths_dev, par_lengths_test, para_lengths_train, para_lengths_dev, para_lengths_test)
+    show_par_avg_lens(x, par_lengths_train, par_lengths_dev, par_lengths_test, para_lengths_train, para_lengths_dev, para_lengths_test)
         

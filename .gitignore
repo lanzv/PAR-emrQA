@@ -166,4 +166,8 @@ cython_debug/
 
 # Model checkpoints
 /model_output_dir
+
+
 Untitled.ipynb
+*.ipynb
+/scripts

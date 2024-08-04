@@ -2,12 +2,25 @@ import evaluate as eval_lib
 import src.squad_v1_1_evaluation_script as evaluate
 
 class Evaluate:
+    """
+    Static evaluation class for the PR, Oracle-QA and PRQA tasks
+    """
 
     def question_answering(gold_data, predictions):
         """
-        gold data ~ the dataset of data["data"][i]~report, where len(report["paragraphs"]) = 1
-        predictions ~ {"id1": "answer text", "id2": "answer text2", ...}
-        prediction for the same question from different paragraph is chosen only one,depending on the min cls
+        Call SQuAD official evaluation script to get Exact Match (EM) and F1 scores
+
+        Parameters
+        ----------
+        gold_data: dict
+            the preprocessed SQuAD-like emrQA subset of data["data"][i]~report, where len(report["paragraphs"]) = 1 (not paragraphized, the original one)
+        predictions: dict
+            predictions for the gold_data subset in the format of {"id1": "answer text", "id2": "answer text2", ...}
+            each ID should consist only one predicted answer (the most confident one)
+        Returns
+        -------
+        scores: dict
+            em and f1 scores in the format of {'exact_match': exact_match, 'f1': f1}
         """
         if len(predictions) == 0:
             return {'exact_match': 0.0, 'f1': 0.0}
@@ -15,9 +28,21 @@ class Evaluate:
 
     def paragraph_retrieval(gold_data, predictions):
         """
-        gold_data ~ the paragraphized dataset of data["data"][i]~report, where len(report["paragraphs"]) = n
-        predictions ~ {"id1": [3, 5, 2, ...], "id2": [2, 1, 10, 0, ..], "id3": [21, 14, 18, 3, ..]} of top paragraphs
-        the given list is sorted list of the top confident paragraphs
+        Compute P@1, P@2 and P@3 precision scores of the paragraph retrieval task
+        The script relies on the id uniqness in the gold_data, if not it could easily
+        happen that P@1 > P@3 (because the script will not be working correctly)
+
+        Parameters
+        ----------
+        gold_data: dict
+            the paragraphized preprocessed SQuAD-like emrQA subset of data["data"][i]~report, where len(report["paragraphs"]) = n
+        predictions: dict
+            paragraph retrieval predictions in the format of {"id1": [3, 5, 2, ...], "id2": [2, 1, 10, 0, ..], "id3": [21, 14, 18, 3, ..]} 
+            where the given list is sorted list of paragraph ids based on the paragraph's confidence given the question id
+        Returns
+        -------
+        scores: dict
+            p@1, p@2, and p@3 scores in the format of {"p@1": precision_at1, "p@2": precision_at2, "p@3": precision_at3}
         """
         if len(predictions) == 0:
             return {"p@1": 0.0, "p@2": 0.0, "p@3": 0.0}

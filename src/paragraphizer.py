@@ -12,7 +12,29 @@ from src.paragraphs.utils import prune_sentence, find_substring_offsets
 class Paragraphizer:
     def preprocess(data, max_answer_length=20):
         """
+        Based on the following filtration: https://github.com/xiangyue9607/CliniRC
+
+        Preprocess and filter the original emrQA subset and return back filterd 
+        and SQuAD-like version of the original emrQA subset
         filter -> preprocess -> data[i]~report -> gold answers, gold question ids
+
+        - normalize the context and adapt the answers accordingly
+        - ignore complex answers, consider only single/empty answer entities
+        - instead of answer entitites, consider the whole answer line evidence as an answer text
+        - throw away answers longer than 20 words
+
+        Parameters
+        ----------
+        data: dict
+            subset in the format of the original emrQA dataset taken as a single element from {"data": [..]} data list
+        max_answer_length: int
+            maximum number of words as part of one substing answer - longer asnwers will be filtered out
+        Returns
+        -------
+        preprocessed_data: dict
+            filtered SQuAD-like formated dataset of the emrQA subset 
+            only the context is kept the same with "answer_line", "original_evidence" corresponding to this context as part of the answer object
+            the normalized context (the SQuAD-like one) is stored as the "norm_context" next to "context"
         """
         preprocessed_data = {"data": []}
         for report_id, report in enumerate(data["paragraphs"]):
@@ -83,7 +105,39 @@ class Paragraphizer:
     
     def paragraphize(data, title, frequency_threshold, topics = None, target_average=500):
         """
-        get data -> paragraphize data ~ split data[i]["paragraphs"] into more paragraphs (right now should be len(data[i]["paragraphs"]) = 1)
+        Based on the paragraphization mode and hyperparameters, find paragraphs and finilize 
+        the dataset into the completely SQuAD-like dataset, paragraphized, with ormalized context, etc.. 
+        ready for training + evaluation
+
+
+        get data, topics, paragraphs -> paragraphize data ~ split data[i]["paragraphs"] into more paragraphs 
+        for the coming data as parameter should be fullfilled the len(data[i]["paragraphs"]) = 1
+        which will be changed in the final paragraphized_data dict
+        
+        Parameters
+        ----------
+        data: dict
+            filtered SQuAD-like formated dataset of the emrQA subset 
+            only the context is kept the same with "answer_line", "original_evidence" corresponding to this context as part of the answer object
+            the normalized context (the SQuAD-like one) is stored as the "norm_context" next to "context"
+        title: str
+            mode of the paragraphizing - medication, relations, or uniform
+        frequency_threshold: int
+            number of occurrences of headings that serve as paragraph separators
+            used only when title ~ medication/relations
+        topics: collections.Counter or None
+            Counter of topics and their occurrences in training data
+            if not set, paragraphizer will find its own Counter, otherwise it uses given data
+        target_average: int
+            target average paragraph length (characters), used only when title ~ uniform
+            (the final paragraph average length will be the most possible closest one)
+        Returns
+        -------
+        paragraphized_data: dict
+            completely SQuAD-like dataset, paragraphized, normalized context, etc.. ready for training + evaluation
+        topics: collections.Counter or None
+            currently used topics Counter - either the passed one, or if was none passed, the newly created one
+            in case of uniform, the None is returned back (if none was passed as argument)
         """
         if title == "relations":
             paragraphs, topics = paragraphize_relations(data, frequency_threshold, topics)

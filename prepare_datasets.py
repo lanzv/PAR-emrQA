@@ -14,20 +14,35 @@ logging.basicConfig(
 logging.getLogger().setLevel(logging.INFO)
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--data_path', type=str, default='./data/data.json')
-parser.add_argument('--target_dir', type=str, default='./data')
-parser.add_argument('--train_ratio', type=float, default=0.7)
-parser.add_argument('--dev_ratio', type=float, default=0.1)
-parser.add_argument('--topics', metavar='N', type=str, nargs='+', default=["medication", "relations"])
-parser.add_argument('--train_sample_ratios', metavar='N', type=float, nargs='+', default=[0.2, 0.05])
+parser.add_argument('--data_path', type=str, default='./data/data.json', help="path to the original emrQA dataset")
+parser.add_argument('--target_dir', type=str, default='./data', help="target folder where the preprocessed subsets will be stored")
+parser.add_argument('--train_ratio', type=float, default=0.7, help="ratio of training data, by default 70%")
+parser.add_argument('--dev_ratio', type=float, default=0.1, help="ratio of development data, by default 10% -> test data by default 20%")
+parser.add_argument('--topics', metavar='N', type=str, nargs='+', default=["medication", "relations"], help="list of subsets from the emrQA that are going to be preprocessed")
+parser.add_argument('--train_sample_ratios', metavar='N', type=float, nargs='+', default=[0.2, 0.05], help="the list should be of the same length as in the case of --topics flag, list of sample ratio of the training data (to train from less of data, but still not lose many of information)")
 parser.add_argument('--seed', type=int, help='random seed', default=55)
-parser.add_argument('--train_seed', type=int, help='random seed', default=2)
+parser.add_argument('--train_seed', type=int, help='random seed of training sampling', default=2)
 
 
 
 def sample_dataset(data, sample_ratio):
     """
-    Authors: CliniRC
+    Authors: https://github.com/xiangyue9607/CliniRC
+
+    Sample the given dataset to return 100*sample_ratio % of original question-answer pairs.
+    Keep the number of reports. Many of questions are only paraphases or asks for the same
+    substring, only differently so they are not really necessary.
+
+    Parameters
+    ----------
+    data: dict
+        SQuAD-like format of the emrQA subset
+    sample_ratio: float
+        float number between 0.0 and 1.0, ratio of sampled questions
+    Returns
+    -------
+    new_data_json: dict
+        SQuAD-like format of the emrQA subset with reduced 
     """
     new_data = []
     total = 0
@@ -86,12 +101,12 @@ def main(args):
         for i in range(train_note_num + dev_note_num, note_num):
             test['data'].append(curr_data['data'][note_list[i]])
         train_originals[title] = train
-        # sample dataset
+        # sample dataset, this could be ignored since the sampling is done again later
         if train_sample_ratio < 1.0:
             new_train = sample_dataset(train, train_sample_ratio)
 
         # save splited dataset
-        with open(os.path.join(args.target_dir, "{}-train.json".format(title)), "w") as jsonFile:
+        with open(os.path.join(args.target_dir, "{}-train_full.json".format(title)), "w") as jsonFile:
             json.dump(train, jsonFile)
         with open(os.path.join(args.target_dir, "{}-dev.json".format(title)), "w") as jsonFile:
             json.dump(dev, jsonFile)
@@ -99,6 +114,7 @@ def main(args):
             json.dump(test, jsonFile)
 
     for title, train_sample_ratio in zip(args.topics, args.train_sample_ratios):
+        # we are sampling again due to seed consistency
         random.seed(args.train_seed)
         # sample dataset
         if train_sample_ratio < 1.0:
