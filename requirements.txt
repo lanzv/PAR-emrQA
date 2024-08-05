@@ -1,0 +1,13 @@
+datasets==2.18.0
+evaluate==0.4.1
+json5==0.9.14
+matplotlib==3.8.2
+matplotlib==3.5.1
+numpy==1.21.5
+peft==0.7.1
+PyYAML==5.4.1
+PyYAML==6.0.1
+torch==2.2.2+cu118
+tqdm==4.66.1
+transformers==4.41.0.dev0
+trl==0.8.6
