@@ -1,5 +1,5 @@
 """
-Functions extracted from the following repo:
+All functions extracted from the following repo:
 https://github.com/teticio/llama-squad
 """
 
@@ -32,6 +32,19 @@ from trl import SFTTrainer
 
 
 def create_and_prepare_model(model_path):
+    """
+    Create and prepare the model for training and inference.
+
+    Parameters
+    ----------
+    model_path: str
+        Path to the pre-trained model.
+
+    Returns
+    -------
+    tuple
+        A tuple containing the model, PEFT configuration, and tokenizer.
+    """
     compute_dtype = getattr(torch, "float16")
     model, tokenizer = get_model_and_tokenizer(
         model_name=model_path,
@@ -72,9 +85,18 @@ def smart_tokenizer_and_embedding_resize(
     tokenizer: AutoTokenizer,
     model: AutoModelForCausalLM,
 ):
-    """Resize tokenizer and embedding.
-
+    """
+    Resize the tokenizer and model embeddings to accommodate new special tokens.
     Note: This is the unoptimized version that may make your embedding size not be divisible by 64.
+
+    Parameters
+    ----------
+    special_tokens_dict: Dict
+        Dictionary of special tokens to be added.
+    tokenizer: AutoTokenizer
+        Tokenizer to be resized.
+    model: AutoModelForCausalLM
+        Model whose embeddings will be resized.
     """
     num_new_tokens = tokenizer.add_special_tokens(special_tokens_dict)
     model.resize_token_embeddings(len(tokenizer))
@@ -104,6 +126,31 @@ def get_model_and_tokenizer(
     bnb_4bit_use_double_quant: bool = False,
 ) -> tuple[AutoModelForCausalLM, AutoTokenizer]:
 
+    """
+    Load the model and tokenizer with optional quantization settings.
+
+    Parameters
+    ----------
+    model_name: str
+        Name of the model to load.
+    tokenizer_name: Optional[str]
+        Name of the tokenizer to load.
+    quantize: bool
+        Whether to apply quantization to the model.
+    load_in_4bit: bool
+        Whether to load the model in 4-bit precision.
+    bnb_4bit_quant_type: str
+        Type of 4-bit quantization to use.
+    bnb_4bit_compute_dtype: torch.dtype
+        Data type for 4-bit quantization computation.
+    bnb_4bit_use_double_quant: bool
+        Whether to use double quantization.
+
+    Returns
+    -------
+    tuple
+        A tuple containing the model and tokenizer.
+    """
     bnb_config = BitsAndBytesConfig(
         load_in_4bit=load_in_4bit,
         bnb_4bit_quant_type=bnb_4bit_quant_type,
@@ -129,6 +176,19 @@ def get_model_and_tokenizer(
 
 
 def extract_answer(text):
+    """
+    Extract the answer from the generated text.
+
+    Parameters
+    ----------
+    text: str
+        The text containing the answer in JSON format.
+
+    Returns
+    -------
+    answer: str or None
+        The extracted answer or None if extraction fails.
+    """
     text = text[text.find("{") : text.rfind("}") + 1]
     try:
         # JSON5 is a little less picky than JSON
@@ -139,6 +199,9 @@ def extract_answer(text):
 
 
 class StopAfterToken(StoppingCriteria):
+    """
+    Custom stopping criteria to stop generation after a specific token.
+    """
     def __init__(self, token_id: int):
         self.token_id = token_id
 
@@ -146,6 +209,23 @@ class StopAfterToken(StoppingCriteria):
         return input_ids[0][-1] == self.token_id
 
 def get_answer(messages, pipeline, num_beams=None):
+    """
+    Generate an answer based on the provided messages and pipeline.
+
+    Parameters
+    ----------
+    messages: dict
+        Dictionary of messages for the dialogue.
+    pipeline: transformers.pipeline
+        The text generation pipeline.
+    num_beams: int
+        Number of beams for beam search.
+
+    Returns
+    -------
+    tuple
+        The generated answer and the corresponding score.
+    """
     assistant_messages = [
         message
         for message in range(len(messages))
@@ -194,6 +274,10 @@ def get_answer(messages, pipeline, num_beams=None):
 
 
 class SquadSFTTrainer(SFTTrainer):
+    """
+    Custom trainer for fine-tuning models on SQuAD-like datasets.
+    """
+    
     def __init__(self, answer_start_tokens, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.answer_start_tokens = answer_start_tokens
@@ -202,6 +286,14 @@ class SquadSFTTrainer(SFTTrainer):
         )
 
     def evaluate(self, **kwargs):
+        """
+        Evaluate the model on the evaluation dataset, regarding the EM metric.
+
+        Returns
+        -------
+        dict
+            dictionary of evaluation metrics, eval_exact_match, eval_has_answer_correct, eval_no_answer_correct
+        """
         def cast_hook(dtype, module, input):
             input = input[0].to(dtype)
             return (input,)
@@ -277,11 +369,28 @@ class SquadSFTTrainer(SFTTrainer):
         return metrics
 
 class SquadDataCollator(DataCollatorForLanguageModeling):
+    """
+    Custom data collator for SQuAD-like datasets.
+    """
+
     def __init__(self, answer_start_tokens: torch.Tensor, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.answer_start_tokens = answer_start_tokens
 
     def __call__(self, examples):
+        """
+        Process the examples to create a batch for training.
+
+        Parameters
+        ----------
+        examples: list
+            List of input examples.
+
+        Returns
+        -------
+        batch: dict
+            Batch of processed examples.
+        """
         batch = super().__call__(examples)
 
         # Only apply cross entropy loss to the answer part of the labels

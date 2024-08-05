@@ -29,6 +29,7 @@ class Paragraphizer:
             subset in the format of the original emrQA dataset taken as a single element from {"data": [..]} data list
         max_answer_length: int
             maximum number of words as part of one substing answer - longer asnwers will be filtered out
+
         Returns
         -------
         preprocessed_data: dict
@@ -131,6 +132,7 @@ class Paragraphizer:
         target_average: int
             target average paragraph length (characters), used only when title ~ uniform
             (the final paragraph average length will be the most possible closest one)
+
         Returns
         -------
         paragraphized_data: dict

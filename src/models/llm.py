@@ -12,30 +12,50 @@ from src.models.llm_utils import get_model_and_tokenizer, extract_answer, get_an
 import transformers
 from tqdm import tqdm
 from src.eval import Evaluate
-
-
 import re
-import json
-from src.models.llm_utils import create_and_prepare_model
-
+from src.models.llm_utils import create_and_prepare_model, SquadDataCollator, SquadSFTTrainer
 from transformers import TrainingArguments
-
-from src.models.llm_utils import SquadDataCollator, SquadSFTTrainer
-import torch
-
-from transformers import TrainingArguments
-
 import torch
 from peft import AutoPeftModelForCausalLM
 
 
 
 class LLMWrapperPRQA:
+    """
+    Wrapper class for LLM decoder-based models for Question Answering.
+    Paragraph Retrieval is ignored for now.
+    """
+
+
     def __init__(self, model_name):
+        """
+        Initialize the LLMWrapperPRQA class.
+
+        Parameters
+        ----------
+        model_name: str
+            model's huggingface id or the local path to the model
+        """
         self.model, self.peft_config, self.tokenizer = create_and_prepare_model(model_name)
 
     
     def train(self, llm_train, llm_dev, epochs=10, disable_tqdm=False):
+        """
+        Train the model to predict the substring answers with the provided training data, 
+        development data and given hyperparameters
+
+        Parameters
+        ----------
+        llm_train: datasets.Dataset
+            training SQuAD-like paragrpahized dataset in the huggingface Dataset format containing the messages as prompt as single item
+        llm_dev: datasets.Dataset
+            development SQuAD-like paragrpahized dataset in the huggingface Dataset format containing the messages as prompt as single item
+        epochs: int
+            number of training epochs
+        disable_tqdm: bool
+            disable tqdm progress bar if set to True
+            (could come handy when output is printed to the file - for instance when using slurm)
+        """
         training_arguments = TrainingArguments(
             save_strategy="no",
             output_dir="./model_output_dir",
@@ -93,7 +113,22 @@ class LLMWrapperPRQA:
         #self.model.save_pretrained("./biomistral_trained_relations/relations", safe_serialization=True)
 
     def predict(self, llm_test, disable_tqdm = True):
-        
+        """
+        Predict substring answers for the provided test dataset.
+
+        Parameters
+        ----------
+        llm_test: datasets.Dataset
+            test dataset containing 'messages' and 'id'
+        disable_tqdm: bool
+            disable tqdm progress bar if set to True
+            (could come handy when output is printed to the file - for instance when using slurm)
+
+        Returns
+        -------
+        predictions: dict
+            predictions for the Oracle-QA task, {"question_id1": "answer1", "question_id2": "answer2", ..}, the correct paragraph is known
+        """
         pipeline = transformers.pipeline(
             "text-generation",
             model=self.model,

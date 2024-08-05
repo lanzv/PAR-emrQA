@@ -17,6 +17,7 @@ class Evaluate:
         predictions: dict
             predictions for the gold_data subset in the format of {"id1": "answer text", "id2": "answer text2", ...}
             each ID should consist only one predicted answer (the most confident one)
+
         Returns
         -------
         scores: dict
@@ -39,6 +40,7 @@ class Evaluate:
         predictions: dict
             paragraph retrieval predictions in the format of {"id1": [3, 5, 2, ...], "id2": [2, 1, 10, 0, ..], "id3": [21, 14, 18, 3, ..]} 
             where the given list is sorted list of paragraph ids based on the paragraph's confidence given the question id
+
         Returns
         -------
         scores: dict

@@ -12,6 +12,25 @@ from datasets import DatasetDict, load_dataset
 
 
 def emrqa2qa_dataset(dataset, seed=54, balanced=True):
+    """
+    Converts the SQuAD-like paragraphized dictionary of emrQA subset to a QA datasets.
+    Dataset format suitable for hugginface models processing.
+
+
+    Parameters
+    ----------
+    dataset: dict
+        SQuAD-like paragraphized emrQA subset
+    seed: int
+        random seed for dataset shuffling
+    balanced: bool
+        if True, converted dataset will contain also negative samples (the same number as positive samples)
+
+    Returns
+    -------
+    dataset: datasets.Dataset
+        emrQA dataset in the huggingface friendly format
+    """
     data = {
         'id': [],
         'title': [],
@@ -66,7 +85,31 @@ def emrqa2qa_dataset(dataset, seed=54, balanced=True):
     return dataset
 
 
-def emrqa2prqa_dataset(dataset, seed=54):
+def emrqa2prqa_dataset(dataset):
+    """
+    Converts the SQuAD-like paragraphized dictionary of emrQA subset to components of PRQA datasets
+
+    PRQA components
+    - test_data: QA dataset format suitable for hugginface models processing (datasets.Dataset)
+    - report_boundaries: list of ints, list of paragraph offsets where starts new report
+    - question_ids: list of strings, list of unique question ids (each should occure only once)
+        in the same order as gold_paragraphs
+    - gold_paragraphs: list of sets, for each question_ids id (in the same order) there is a set 
+        of all report's paragraph ids (where the id of the first paragraph of the given report is equal to '0')
+        containing the answer given the question id
+
+
+    Parameters
+    ----------
+    dataset: dict
+        SQuAD-like paragraphized emrQA subset
+
+    Returns
+    -------
+    prqa_dataset: dict
+        all PRQA components needed for evaluation: "test_data", "report_boundaries", "question_ids", "gold_paragraphs" keys
+        check the function description for more information
+    """
     report_boundaries = [0]
     question_ids = []
     gold_paragraphs = [] # list of sets of gold paragraphs
@@ -78,7 +121,6 @@ def emrqa2prqa_dataset(dataset, seed=54):
         'question': [],
         'answers': []
     }
-    random.seed(seed)
     for report in dataset["data"]:
         report_qa_ids = set()
         map_id2question = {}
@@ -124,6 +166,29 @@ def emrqa2prqa_dataset(dataset, seed=54):
 
 
 def get_dataset_bert_format(train, dev, test):
+    """
+    Prepares the SQuAD-like paragraphized dictionary emrQA subset train, 
+    dev and test in a format suitable for BERT models
+
+    Parameters
+    ----------
+    train: dict
+        SQuAD-like paragraphized train emrQA subset
+    dev: dict
+        SQuAD-like paragraphized dev emrQA subset
+    test: dict
+        SQuAD-like paragraphized test emrQA subset
+
+    Returns
+    -------
+    train_dataset: datasets.Dataset
+        training emrQA dataset suitable for huggingface BERTs
+    dev_dataset: datasets.Dataset
+        development emrQA dataset suitable for huggingface BERTs
+    test_prqa_dataset: dict
+        all PRQA components needed for evaluation: "test_data", "report_boundaries", "question_ids", "gold_paragraphs" keys
+        check the emrqa2prqa_dataset function description for more information
+    """
     train_dataset = emrqa2qa_dataset(train)
     dev_dataset = emrqa2qa_dataset(dev)
     test_prqa_dataset = emrqa2prqa_dataset(test)
@@ -131,6 +196,28 @@ def get_dataset_bert_format(train, dev, test):
 
 
 def get_dataset_llm_format(train, dev, test):
+    """
+    Prepares the SQuAD-like paragraphized dictionary emrQA subset train, 
+    dev and test in a format suitable for LLM decoder-based models
+
+    Parameters
+    ----------
+    train: dict
+        SQuAD-like paragraphized train emrQA subset
+    dev: dict
+        SQuAD-like paragraphized dev emrQA subset
+    test: dict
+        SQuAD-like paragraphized test emrQA subset
+
+    Returns
+    -------
+    train: datasets.Dataset
+        training emrQA dataset suitable for huggingface LLM decoders
+    dev: datasets.Dataset
+        development emrQA dataset suitable for huggingface LLM decoders
+    test: datasets.Dataset
+        testing emrQA dataset suitable for huggingface LLM decoders (not PRQA format, only Oracle-QA)
+    """
     train_pars = emrqa2qa_dataset(train, balanced=False)
     dev_pars = emrqa2qa_dataset(dev, balanced=False)
     test_pars = emrqa2qa_dataset(test, balanced=False)
@@ -143,26 +230,40 @@ def get_dataset_llm_format(train, dev, test):
 
 
 def convert_format_bert2llm(bert_dataset):
+    """
+    Converts the BERT format dataset to an LLM format dataset
+
+    Parameters
+    ----------
+    bert_dataset: datasets.Dataset
+        dataset suitable for huggingface BERT models
+
+    Returns
+    -------
+    llm_dataset: datasets.Dataset
+        dataset suitable for huggingface LLM decoder models
+    """
     return bert_dataset.map(get_single_turn_prompt_and_response)
 
 
-@dataclass
-class ScriptArguments:
-    prompt: Optional[str] = field(
-        default="single_turn",
-        metadata={"help": "single_turn, multi_turn"},
-    )
-    validation_ratio: Optional[float] = field(
-        default=0.005,
-        metadata={"help": "Validation ratio"},
-    )
-    seed: Optional[int] = field(
-        default=42,
-        metadata={"help": "Seed for the random number generator"},
-    )
-
-
 def get_single_turn_prompt_and_response(item, all_answers=False):
+    """
+    Based on the following repository: https://github.com/teticio/llama-squad
+    Generates a single-turn prompt and response for LLM training
+
+
+    Parameters
+    ----------
+    item: dict
+        single item from the BERT-like dataset
+    all_answers: bool
+        if True, includes all possible answers, default is False
+
+    Returns
+    -------
+    llm_item: dict
+        the item in the LLM format with a prompt and response.
+    """
     context = item["context"]
     question = item["question"]
     answers = item["answers"]["text"]
@@ -171,13 +272,9 @@ def get_single_turn_prompt_and_response(item, all_answers=False):
     if not all_answers:
         answers = answers[0]
     answers = json.dumps(answers)
-    system_prompt = """You are a helpful, respectful and honest assistant. Always answer as helpfully as possible, while being safe. Your answers should not include any harmful, unethical, racist, sexist, toxic, dangerous, or illegal content. Please ensure that your responses are socially unbiased and positive in nature.
-If a question does not make any sense, or is not factually coherent, explain why instead of answering something not correct. If you don't know the answer to a question, please don't share false information."""
 
     return {
         "messages": [
-            #{"role": "user", "content": system_prompt},
-            #{"role": "assistant", "content": "I will."},
             {
                 "role": "user",
                 "content": dedent(

@@ -39,6 +39,7 @@ def sample_dataset(data, sample_ratio):
         SQuAD-like format of the emrQA subset
     sample_ratio: float
         float number between 0.0 and 1.0, ratio of sampled questions
+
     Returns
     -------
     new_data_json: dict

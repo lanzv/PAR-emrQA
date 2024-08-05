@@ -15,7 +15,19 @@ from torch.nn.functional import softmax
 
 
 class BERTWrapperPRQA:
+    """
+    Wrapper class for BERT-based models for Paragraph Retrieval and Question Answering (PRQA).
+    """
+
     def __init__(self, model_name):
+        """
+        Initialize the BERTWrapperPRQA class.
+
+        Parameters
+        ----------
+        model_name: str
+            model's huggingface id or the local path to the model
+        """
         self.model_name = model_name
 
         # load tokenizer and model
@@ -38,6 +50,34 @@ class BERTWrapperPRQA:
         )
     
     def train(self, train_data, dev_data, learning_rate=3e-5, epochs=1, weight_decay=0.01, train_batch_size=16, eval_batch_size=256, seed=54, disable_tqdm=False):
+        """
+        Train the model to predict the substring answers (eventually to found out 
+        that there is no such answer in the given context) with the provided training data, 
+        development data and given hyperparameters
+
+
+        Parameters
+        ----------
+        train_data: datasets.Dataset
+            training SQuAD-like paragrpahized dataset in the huggingface Dataset format
+        dev_data: datasets.Dataset
+            development SQuAD-like paragrpahized dataset in the huggingface Dataset format
+        learning_rate: float
+            BERT's training learning rate
+        epochs: int
+            number of training epochs
+        weight_decay: float
+            weight decay for regularization
+        train_batch_size: int
+            batch size for training
+        eval_batch_size: int
+            batch size for evaluation
+        seed: int
+            random seed
+        disable_tqdm: bool
+            disable tqdm progress bar if set to True
+            (could come handy when output is printed to the file - for instance when using slurm)
+        """
         tokenized_train = train_data.map(self.__preprocess_function, batched=True, remove_columns=train_data.column_names)
         tokenized_dev = dev_data.map(self.__preprocess_function, batched=True, remove_columns=train_data.column_names) 
         
@@ -66,7 +106,37 @@ class BERTWrapperPRQA:
         self.trainer.train()
         logging.info("the model is trained")
 
-    def predict(self,  test_prqa_dataset, seed=54, disable_tqdm=False, confidence_type="min_cls"):
+    def predict(self, test_prqa_dataset, seed=54, disable_tqdm=False, confidence_type="min_cls"):
+        """
+        Predict answers and correct paragraphs containing the answer for the provided test dataset
+        - Oracle-QA predictions
+        - Paragraph Retrieval (PR) predictions
+        - PRQA predictions
+
+
+        Parameters
+        ----------
+        test_prqa_dataset: dict
+            test dataset containing 'test_data' (datasets.Dataset), 'report_boundaries' (boundaries of reports in test_data paragraph items), 
+            'question_ids' (list of unique question ids),
+            and 'gold_paragraphs' (list of sets of gold paragraphs containig answer for unique_ids (in the same order))
+        seed: int
+            random seed
+        disable_tqdm: bool
+            disable tqdm progress bar if set to True
+            (could come handy when output is printed to the file - for instance when using slurm)
+        confidence_type: str
+            type of confidence calculation, one of "max_score" (one used by default by BERT for turncated blocks) or "min_cls" 
+
+        Returns
+        -------
+        qa_predictions: dict
+            predictions for the Oracle-QA task - {"question_id1": "answer1", "question_id2": "answer2", ..}, the correct paragraph is known
+        pr_predictions: dict
+            predictions for the PR task - {"question_id1": [5,2,1,3,..], "question_id2": [8,1,0,3,..], ..} (sorted paragraph id list by their confidence)
+        prqa_predictions: dict
+            predictions for the PRQA task - {"question_id1": "answer1", "question_id2": "answer2", ..}, the most confident paragraph is chosen
+        """
         test_dataset = test_prqa_dataset["test_data"]
         report_boundaries = test_prqa_dataset["report_boundaries"] 
         question_ids = test_prqa_dataset["question_ids"] 
@@ -108,6 +178,21 @@ class BERTWrapperPRQA:
 
 
     def __preprocess_function(self, examples):
+        """
+        Based on the QA Huggingface sample codes
+        Preprocess function to tokenize and encode the input examples
+        (assign start and end positions of answer substring)
+
+        Parameters
+        ----------
+        examples: dict
+            input examples containing 'context', 'question', and 'answers'
+
+        Returns
+        -------
+        tokenized_examples: dict
+            tokenized and encoded examples
+        """
         # Some of the questions have lots of whitespace on the left, which is not useful and will make the
         # truncation of the context fail (the tokenized question will take a lots of space). So we remove that
         # left whitespace
@@ -187,7 +272,18 @@ class BERTWrapperPRQA:
        
     def __prepare_validation_features(self, examples):
         """
-        Authors: Huggingface
+        Based on the QA Huggingface sample codes
+        Prepare validation features for prediction
+
+        Parameters
+        ----------
+        examples: dict
+            input examples containing 'context', 'question', and (unique!!) 'id'
+
+        Returns
+        -------
+        tokenized_examples: dict
+            tokenized and encoded validation examples
         """
         # Some of the questions have lots of whitespace on the left, which is not useful and will make the
         # truncation of the context fail (the tokenized question will take a lots of space). So we remove that
@@ -237,7 +333,31 @@ class BERTWrapperPRQA:
     
     def __postprocess_qa_predictions(self, examples, features, raw_predictions, disable_tqdm=False, confidence_type="min_cls"):
         """
-        Authors: Huggingface
+        Based on the QA Huggingface sample codes - modified for the Paragraph Retrieval purpose.
+        Post-process QA predictions to extract answers from model outputs and to get confidence
+        of each paragraph and its answer regarding the given question.
+
+        Parameters
+        ----------
+        examples: dict
+            original examples containing 'context' and 'id'
+        features: dict
+            tokenized features generated from examples
+        raw_predictions: tuple
+            raw predictions from the model (start_logits, end_logits)
+        disable_tqdm: bool
+            disable tqdm progress bar if set to True
+            (could come handy when output is printed to the file - for instance when using slurm)
+        confidence_type: str
+            type of confidence calculation, one of "max_score" (one used by default by BERT for turncated blocks) or "min_cls" 
+
+        Returns
+        -------
+        predictions: dict
+            extracted substring answer predictions for each question-answer-paragraph triples (even for the negative ones)
+            key is the question ID, it's value is the predicted answer substring
+        confidences: list of floats
+            confidence scores for the predictions for each question-answer-paragraph triples
         """
         all_start_logits, all_end_logits = raw_predictions
         # Build a map example to its corresponding features.
